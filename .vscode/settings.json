@@ -1,0 +1,9 @@
+{
+    "crystal-lang.compiler": "/usr/local/bin/crystal",
+    "crystal-lang.completion": true,
+    "crystal-lang.hover": true,
+    "crystal-lang.implementations": true,
+    "crystal-lang.shards": "/usr/local/bin/shards",
+    "crystal-lang.mainFile": "${workspaceRoot}/src/main.cr",
+    // "crystal-lang.server": "/usr/local/bin/scry"
+}
