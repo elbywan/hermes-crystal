@@ -1,3 +1,5 @@
 #/bin/bash
 
-crystal src/main.cr --link-flags -L`pwd`
+export LIBRARY_PATH=`pwd`
+
+crystal src/main.cr #--link-flags -L`pwd`

@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Hermes::Crystal do
+describe HermesCrystal do
   # TODO: Write tests
 
   it "works" do

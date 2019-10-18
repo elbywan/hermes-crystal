@@ -1,32 +1,40 @@
 require "./bindings"
-require "json"
+require "./api/hermes"
 
-module Hermes
+module HermesCrystal
   extend self
   include Bindings
 
-  VERSION = "0.1.0"
+  Hermes.enable_debug_log
 
-  def err_check(result)
-    if result == LibHermes::SnipsResult::SnipsResultKo
-      LibHermes.hermes_get_last_error(out error)
-      raise String.new(error)
-    end
-  end
+  hermes = Hermes.new(broker_address: "localhost:1883")
 
-  def err_check
-    result = yield
-    err_check(result)
-  end
+  start_session = LibHermes::CStartSessionMessage.new(
+    site_id: "default",
+    init: LibHermes::CSessionInit.new(
+      init_type: LibHermes::SnipsSessionInitType::SnipsSessionInitTypeNotification,
+      value: "Salut la compagnie!".to_unsafe
+    )
+  )
 
-  options = LibHermes::CMqttOptions.new
-  options.broker_address = "localhost:1883"
+  hermes.dialog.publish_start_session(pointerof(start_session))
+  hermes.dialog.subscribe_intents(once: true) { |message|
+    pp message
+  }
+  hermes.dialog.subscribe_intent("intent") { |message|
+    pp message
+  }
+  hermes.dialog.subscribe_intent_not_recognized { |message|
+    pp message
+  }
 
-  # ENV["RUST_LOG"] ||= "debug"
-  # err_check LibHermes.hermes_enable_debug_logs
+  hermes.destroy
 
-  err_check LibHermes.hermes_protocol_handler_new_mqtt_with_options(out handler, pointerof(options), nil)
-  err_check LibHermes.hermes_protocol_handler_dialogue_facade(handler, out dialogue_facade)
+  # options = LibHermes::CMqttOptions.new
+  # options.broker_address = "localhost:1883"
+
+  # err_check LibHermes.hermes_protocol_handler_new_mqtt_with_options(out handler, pointerof(options), nil)
+  # err_check LibHermes.hermes_protocol_handler_dialogue_facade(handler, out dialogue_facade)
 
   # start_message = {
   #   site_id: "default",
@@ -36,49 +44,47 @@ module Hermes
   #   }
   # }
 
-  start_message = LibHermes::CStartSessionMessage.new(
-    site_id: "default",
-    init: LibHermes::CSessionInit.new(
-      init_type: LibHermes::SnipsSessionInitType::SnipsSessionInitTypeNotification,
-      value: "Salut la compagnie!".to_unsafe()
-    )
-  )
+  # start_message = LibHermes::CStartSessionMessage.new(
+  #   site_id: "default",
+  #   init: LibHermes::CSessionInit.new(
+  #     init_type: LibHermes::SnipsSessionInitType::SnipsSessionInitTypeNotification,
+  #     value: "Salut la compagnie!".to_unsafe
+  #   )
+  # )
 
-  err_check LibHermes.hermes_dialogue_publish_start_session(dialogue_facade, pointerof(start_message))
+  # err_check LibHermes.hermes_dialogue_publish_start_session(dialogue_facade, pointerof(start_message))
 
-  sleep 2
+  # sleep 2
 
-  start_message = LibHermes::CStartSessionMessage.new(
-    site_id: "default",
-    init: LibHermes::CSessionInit.new(
-      init_type: LibHermes::SnipsSessionInitType::SnipsSessionInitTypeAction,
-      value: (
-        value = LibHermes::CActionSessionInit.new(
-          text: "Démarrage de la session…",
-          # intent_filter: (
-          #   intent_filter = LibHermes::CStringArray.new(
-          #     data: ["intent"].map { |elt| elt.to_unsafe() },
-          #     size: 1
-          #   )
-          #   pointerof(intent_filter)
-          # )
-        )
-        pointerof(value).as(Void*)
-      )
-    )
-  )
+  # start_message = LibHermes::CStartSessionMessage.new(
+  #   site_id: "default",
+  #   init: LibHermes::CSessionInit.new(
+  #     init_type: LibHermes::SnipsSessionInitType::SnipsSessionInitTypeAction,
+  #     value: (
+  #       value = LibHermes::CActionSessionInit.new(
+  #         text: "Démarrage de la session…",
+  #         # intent_filter: (
+  #         #   intent_filter = LibHermes::CStringArray.new(
+  #         #     data: ["intent"].map { |elt| elt.to_unsafe },
+  #         #     size: 1
+  #         #   )
+  #         #   pointerof(intent_filter)
+  #         # )
+  #       )
+  #       pointerof(value).as(Void*)
+  #     )
+  #   )
+  # )
 
-  err_check LibHermes.hermes_dialogue_publish_start_session(dialogue_facade, pointerof(start_message))
+  # err_check LibHermes.hermes_dialogue_publish_start_session(dialogue_facade, pointerof(start_message))
 
-  LibHermes.hermes_dialogue_subscribe_intents(dialogue_facade, ->(message, data) {
-    LibHermes.hermes_drop_intent_message(message)
-    sleep 1
-    pp message.value
-    puts String.new message.value.input
-  })
+  # LibHermes.hermes_dialogue_subscribe_intents(dialogue_facade, ->(message, data) {
+  #   pp message.value
+  #   puts String.new message.value.input
+  # })
 
   sleep 60
 
-  err_check LibHermes.hermes_drop_dialogue_facade(dialogue_facade)
-  err_check LibHermes.hermes_destroy_mqtt_protocol_handler(handler)
+  # err_check LibHermes.hermes_drop_dialogue_facade(dialogue_facade)
+  # err_check LibHermes.hermes_destroy_mqtt_protocol_handler(handler)
 end

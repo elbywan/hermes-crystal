@@ -1,4 +1,18 @@
-module Hermes::Bindings
+module Bindings
+  extend self
+
+  def call!(result)
+    if result == LibHermes::SnipsResult::SnipsResultKo
+      LibHermes.hermes_get_last_error(out error)
+      raise String.new(error)
+    end
+  end
+
+  def call!
+    result = yield
+    call!(result)
+  end
+
   @[Link("hermes_mqtt_ffi")]
   lib LibHermes
     # Aliases

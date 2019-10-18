@@ -1,2 +1,2 @@
 require "spec"
-require "../src/hermes-crystal"
+require "../src/main"
