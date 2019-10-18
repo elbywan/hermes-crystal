@@ -12,3 +12,8 @@ development_dependencies:
   crystal_lib:
     github: crystal-lang/crystal_lib
     version: "*"
+  mqtt_crystal:
+    github: liu-chong/mqtt_crystal
+    branch: master
+  sam:
+    github: imdrasil/sam.cr

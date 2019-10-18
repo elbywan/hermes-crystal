@@ -1,6 +1,8 @@
 # hermes-crystal
 
-TODO: Write a description here
+The `hermes-crystal` library provides bindings for the Hermes protocol that Snips components use to communicate together. `hermes-crystal` allows you to interface seamlessly with the Snips platform and create Voice applications with ease!
+
+`hermes-crystal` abstracts away the connection to the MQTT bus and the parsing of incoming and outcoming messages from and to the components of the platform and provides a high-level API as well.
 
 ## Installation
 

@@ -1,8 +1,14 @@
+require "./enums"
+
+# Contains low level bindings to the hermes library.
+# This module is not meant to be used directly.
 module Bindings
+  include Enums
+
   extend self
 
   def call!(result)
-    if result == LibHermes::SnipsResult::SnipsResultKo
+    if result == SnipsResult::Ko
       LibHermes.hermes_get_last_error(out error)
       raise String.new(error)
     end
@@ -19,62 +25,6 @@ module Bindings
     alias Int32T = LibC::Int
     alias Uint64T = LibC::ULongLong
     alias Uint8T = UInt8
-
-    # Enums
-
-    enum SnipsResult
-      SnipsResultOk = 0
-      SnipsResultKo = 1
-    end
-
-    enum SnipsSessionInitType
-      SnipsSessionInitTypeAction       = 1
-      SnipsSessionInitTypeNotification = 2
-    end
-
-    enum SnipsSlotValueType
-      SnipsSlotValueTypeCustom        =  1
-      SnipsSlotValueTypeNumber        =  2
-      SnipsSlotValueTypeOrdinal       =  3
-      SnipsSlotValueTypeInstanttime   =  4
-      SnipsSlotValueTypeTimeinterval  =  5
-      SnipsSlotValueTypeAmountofmoney =  6
-      SnipsSlotValueTypeTemperature   =  7
-      SnipsSlotValueTypeDuration      =  8
-      SnipsSlotValueTypePercentage    =  9
-      SnipsSlotValueTypeMusicalbum    = 10
-      SnipsSlotValueTypeMusicartist   = 11
-      SnipsSlotValueTypeMusictrack    = 12
-      SnipsSlotValueTypeCity          = 13
-      SnipsSlotValueTypeCountry       = 14
-      SnipsSlotValueTypeRegion        = 15
-    end
-
-    enum SnipsSessionTerminationType
-      SnipsSessionTerminationTypeNominal             = 1
-      SnipsSessionTerminationTypeSiteUnavailable     = 2
-      SnipsSessionTerminationTypeAbortedByUser       = 3
-      SnipsSessionTerminationTypeIntentNotRecognized = 4
-      SnipsSessionTerminationTypeTimeout             = 5
-      SnipsSessionTerminationTypeError               = 6
-    end
-
-    enum SnipsHermesComponent
-      SnipsHermesComponentNone        = -1
-      SnipsHermesComponentAudioServer =  1
-      SnipsHermesComponentHotword     =  2
-      SnipsHermesComponentAsr         =  3
-      SnipsHermesComponentNlu         =  4
-      SnipsHermesComponentDialogue    =  5
-      SnipsHermesComponentTts         =  6
-      SnipsHermesComponentInjection   =  7
-      SnipsHermesComponentClientApp   =  8
-    end
-
-    enum SnipsInjectionKind
-      SnipsInjectionKindAdd            = 1
-      SnipsInjectionKindAddFromVanilla = 2
-    end
 
     # Structs
 
@@ -227,7 +177,7 @@ module Bindings
 
     struct CAsrDecodingDuration
       start : LibC::Float
-      _end : LibC::Float
+      end_ : LibC::Float
     end
 
     struct CIntentNotRecognizedMessage
@@ -356,6 +306,40 @@ module Bindings
       sound_id : LibC::Char*
       wav_sound : Uint8T*
       wav_sound_len : LibC::Int
+    end
+
+    struct CInstantTimeValue
+      value : LibC::Char*
+      grain : SnipsGrain
+      precision : SnipsPrecision
+    end
+
+    struct CTimeIntervalValue
+      from : LibC::Char*
+      to : LibC::Char*
+    end
+
+    struct CAmountOfMoneyValue
+      unit : LibC::Char*
+      value : LibC::Float
+      precision : SnipsPrecision
+    end
+
+    struct CTemperatureValue
+      unit : LibC::Char*
+      value : LibC::Float
+    end
+
+    struct CDurationValue
+      year : Int64
+      quarters : Int64
+      months : Int64
+      weeks : Int64
+      days : Int64
+      hours : Int64
+      minutes : Int64
+      seconds : Int64
+      precision : SnipsPrecision
     end
 
     # Functions
