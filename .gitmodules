@@ -1,0 +1,3 @@
+[submodule "hermes-protocol"]
+	path = hermes-protocol
+	url = https://github.com/snipsco/hermes-protocol
