@@ -5,22 +5,26 @@ class Api::Dialog
   include Bindings
   include Api::Utils
 
-  def initialize(handler, @subscriptions : Hash(String, Array(Void*)))
+  protected def initialize(handler, @subscriptions : Hash(String, Array(Void*)))
     call! LibHermes.hermes_protocol_handler_dialogue_facade(handler, out @facade)
   end
 
+  # Publish a start session message.
   def publish_start_session(message)
     call! LibHermes.hermes_dialogue_publish_start_session(@facade, message)
   end
 
+  # Publish a continue session message.
   def publish_continue_session(message)
     call! LibHermes.hermes_dialogue_publish_continue_session(@facade, message)
   end
 
+  # Publish an end session message.
   def publish_end_session(message)
     call! LibHermes.hermes_dialogue_publish_end_session(@facade, message)
   end
 
+  # Publish a dialogue configure message.
   def publish_configure(message)
     call! LibHermes.hermes_dialogue_publish_configure(@facade, message)
   end
@@ -32,7 +36,8 @@ class Api::Dialog
   generate_subscriber(dialogue, "intents", CIntentMessage, hermes_drop_intent_message)
   generate_subscriber(dialogue, "intent_not_recognized", CIntentNotRecognizedMessage, hermes_drop_intent_not_recognized_message)
 
-  def destroy
+  # Destroy the facade.
+  protected def destroy
     call! LibHermes.hermes_drop_dialogue_facade(@facade)
   end
 end

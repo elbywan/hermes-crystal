@@ -1,5 +1,6 @@
 module Api::Utils
   macro generate_subscriber(facade, topic, message, drop)
+    # Subscribe to {{topic.id}} events.
     def subscribe_{{topic.id}}(*extra_args, once = false, &callback : LibHermes::{{message}} -> Void)
       unless @subscriptions.has_key? {{topic}}
         @subscriptions["#{{{topic}}}"] = [] of Void*
@@ -28,6 +29,7 @@ module Api::Utils
       boxed_callback
     end
 
+    # Unsubscribe to {{topic.id}} events.
     def unsubscribe_{{topic.id}}(callback_ref)
       @subscriptions[{{topic}}].delete(callback_ref)
     end

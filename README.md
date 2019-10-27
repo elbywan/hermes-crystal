@@ -1,5 +1,9 @@
 # hermes-crystal
 
+#### A crystal wrapper around the hermes protocol
+
+## Context
+
 The `hermes-crystal` library provides bindings for the Hermes protocol that Snips components use to communicate together. `hermes-crystal` allows you to interface seamlessly with the Snips platform and create Voice applications with ease!
 
 `hermes-crystal` abstracts away the connection to the MQTT bus and the parsing of incoming and outcoming messages from and to the components of the platform and provides a high-level API as well.
@@ -8,11 +12,11 @@ The `hermes-crystal` library provides bindings for the Hermes protocol that Snip
 
 1. Add the dependency to your `shard.yml`:
 
-   ```yaml
-   dependencies:
-     hermes-crystal:
-       github: elbywan/hermes-crystal
-   ```
+```yaml
+dependencies:
+  hermes-crystal:
+    github: elbywan/hermes-crystal
+```
 
 2. Run `shards install`
 
@@ -22,11 +26,15 @@ The `hermes-crystal` library provides bindings for the Hermes protocol that Snip
 require "hermes-crystal"
 ```
 
-TODO: Write usage instructions here
+## Documentation
+
+Hosted [here](https://elbywan.github.io/hermes-crystal).
 
 ## Development
 
-TODO: Write development instructions here
+Development tasks are defined in the [`sam.cr`](https://github.com/imdrasil/sam.cr) file.
+
+Use `make sam help` to display the list of available tasks.
 
 ## Contributing
 

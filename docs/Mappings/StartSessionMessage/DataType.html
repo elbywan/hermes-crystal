@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.30.1">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../../";
+</script>
+
+  <meta id="repository-name" content="github.com/elbywan/hermes-crystal">
+  <title>Mappings::StartSessionMessage::DataType - github.com/elbywan/hermes-crystal</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Api" data-name="api">
+      <a href="../../Api.html">Api</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Dialog" data-name="api::dialog">
+      <a href="../../Api/Dialog.html">Dialog</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Feedback" data-name="api::feedback">
+      <a href="../../Api/Feedback.html">Feedback</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Injection" data-name="api::injection">
+      <a href="../../Api/Injection.html">Injection</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Tts" data-name="api::tts">
+      <a href="../../Api/Tts.html">Tts</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Utils" data-name="api::utils">
+      <a href="../../Api/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Bindings" data-name="bindings">
+      <a href="../../Bindings.html">Bindings</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Bindings/Utils" data-name="bindings::utils">
+      <a href="../../Bindings/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Enums" data-name="enums">
+      <a href="../../Enums.html">Enums</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsGrain" data-name="enums::snipsgrain">
+      <a href="../../Enums/SnipsGrain.html">SnipsGrain</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsHermesComponent" data-name="enums::snipshermescomponent">
+      <a href="../../Enums/SnipsHermesComponent.html">SnipsHermesComponent</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsInjectionKind" data-name="enums::snipsinjectionkind">
+      <a href="../../Enums/SnipsInjectionKind.html">SnipsInjectionKind</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsPrecision" data-name="enums::snipsprecision">
+      <a href="../../Enums/SnipsPrecision.html">SnipsPrecision</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsResult" data-name="enums::snipsresult">
+      <a href="../../Enums/SnipsResult.html">SnipsResult</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsSessionInitType" data-name="enums::snipssessioninittype">
+      <a href="../../Enums/SnipsSessionInitType.html">SnipsSessionInitType</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsSessionTerminationType" data-name="enums::snipssessionterminationtype">
+      <a href="../../Enums/SnipsSessionTerminationType.html">SnipsSessionTerminationType</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Enums/SnipsSlotValueType" data-name="enums::snipsslotvaluetype">
+      <a href="../../Enums/SnipsSlotValueType.html">SnipsSlotValueType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Hermes" data-name="hermes">
+      <a href="../../Hermes.html">Hermes</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/elbywan/hermes-crystal/Mappings" data-name="mappings">
+      <a href="../../Mappings.html">Mappings</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/ActionSessionInit" data-name="mappings::actionsessioninit">
+      <a href="../../Mappings/ActionSessionInit.html">ActionSessionInit</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/ActionSessionInit/DataType" data-name="mappings::actionsessioninit::datatype">
+      <a href="../../Mappings/ActionSessionInit/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/AmountOfMoneyValue" data-name="mappings::amountofmoneyvalue">
+      <a href="../../Mappings/AmountOfMoneyValue.html">AmountOfMoneyValue</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/AmountOfMoneyValue/DataType" data-name="mappings::amountofmoneyvalue::datatype">
+      <a href="../../Mappings/AmountOfMoneyValue/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/AsrDecodingDuration" data-name="mappings::asrdecodingduration">
+      <a href="../../Mappings/AsrDecodingDuration.html">AsrDecodingDuration</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/AsrDecodingDuration/DataType" data-name="mappings::asrdecodingduration::datatype">
+      <a href="../../Mappings/AsrDecodingDuration/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/AsrToken" data-name="mappings::asrtoken">
+      <a href="../../Mappings/AsrToken.html">AsrToken</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/AsrToken/DataType" data-name="mappings::asrtoken::datatype">
+      <a href="../../Mappings/AsrToken/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/AsrTokenArray" data-name="mappings::asrtokenarray">
+      <a href="../../Mappings/AsrTokenArray.html">AsrTokenArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/AsrTokenDoubleArray" data-name="mappings::asrtokendoublearray">
+      <a href="../../Mappings/AsrTokenDoubleArray.html">AsrTokenDoubleArray</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/ContinueSessionMessage" data-name="mappings::continuesessionmessage">
+      <a href="../../Mappings/ContinueSessionMessage.html">ContinueSessionMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/ContinueSessionMessage/DataType" data-name="mappings::continuesessionmessage::datatype">
+      <a href="../../Mappings/ContinueSessionMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/DialogueConfigureIntent" data-name="mappings::dialogueconfigureintent">
+      <a href="../../Mappings/DialogueConfigureIntent.html">DialogueConfigureIntent</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/DialogueConfigureIntent/DataType" data-name="mappings::dialogueconfigureintent::datatype">
+      <a href="../../Mappings/DialogueConfigureIntent/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/DialogueConfigureIntentArray" data-name="mappings::dialogueconfigureintentarray">
+      <a href="../../Mappings/DialogueConfigureIntentArray.html">DialogueConfigureIntentArray</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/DialogueConfigureMessage" data-name="mappings::dialogueconfiguremessage">
+      <a href="../../Mappings/DialogueConfigureMessage.html">DialogueConfigureMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/DialogueConfigureMessage/DataType" data-name="mappings::dialogueconfiguremessage::datatype">
+      <a href="../../Mappings/DialogueConfigureMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/DurationValue" data-name="mappings::durationvalue">
+      <a href="../../Mappings/DurationValue.html">DurationValue</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/DurationValue/DataType" data-name="mappings::durationvalue::datatype">
+      <a href="../../Mappings/DurationValue/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/EndSessionMessage" data-name="mappings::endsessionmessage">
+      <a href="../../Mappings/EndSessionMessage.html">EndSessionMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/EndSessionMessage/DataType" data-name="mappings::endsessionmessage::datatype">
+      <a href="../../Mappings/EndSessionMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionCompleteMessage" data-name="mappings::injectioncompletemessage">
+      <a href="../../Mappings/InjectionCompleteMessage.html">InjectionCompleteMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionCompleteMessage/DataType" data-name="mappings::injectioncompletemessage::datatype">
+      <a href="../../Mappings/InjectionCompleteMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionRequestMessage" data-name="mappings::injectionrequestmessage">
+      <a href="../../Mappings/InjectionRequestMessage.html">InjectionRequestMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionRequestMessage/DataType" data-name="mappings::injectionrequestmessage::datatype">
+      <a href="../../Mappings/InjectionRequestMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionRequestOperation" data-name="mappings::injectionrequestoperation">
+      <a href="../../Mappings/InjectionRequestOperation.html">InjectionRequestOperation</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionRequestOperation/DataType" data-name="mappings::injectionrequestoperation::datatype">
+      <a href="../../Mappings/InjectionRequestOperation/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionRequestOperations" data-name="mappings::injectionrequestoperations">
+      <a href="../../Mappings/InjectionRequestOperations.html">InjectionRequestOperations</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionResetCompleteMessage" data-name="mappings::injectionresetcompletemessage">
+      <a href="../../Mappings/InjectionResetCompleteMessage.html">InjectionResetCompleteMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionResetCompleteMessage/DataType" data-name="mappings::injectionresetcompletemessage::datatype">
+      <a href="../../Mappings/InjectionResetCompleteMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionResetRequestMessage" data-name="mappings::injectionresetrequestmessage">
+      <a href="../../Mappings/InjectionResetRequestMessage.html">InjectionResetRequestMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionResetRequestMessage/DataType" data-name="mappings::injectionresetrequestmessage::datatype">
+      <a href="../../Mappings/InjectionResetRequestMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InstantTimeValue" data-name="mappings::instanttimevalue">
+      <a href="../../Mappings/InstantTimeValue.html">InstantTimeValue</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InstantTimeValue/DataType" data-name="mappings::instanttimevalue::datatype">
+      <a href="../../Mappings/InstantTimeValue/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/IntentMessage" data-name="mappings::intentmessage">
+      <a href="../../Mappings/IntentMessage.html">IntentMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/IntentMessage/DataType" data-name="mappings::intentmessage::datatype">
+      <a href="../../Mappings/IntentMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/IntentNotRecognizedMessage" data-name="mappings::intentnotrecognizedmessage">
+      <a href="../../Mappings/IntentNotRecognizedMessage.html">IntentNotRecognizedMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/IntentNotRecognizedMessage/DataType" data-name="mappings::intentnotrecognizedmessage::datatype">
+      <a href="../../Mappings/IntentNotRecognizedMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/MapStringToStringArray" data-name="mappings::mapstringtostringarray">
+      <a href="../../Mappings/MapStringToStringArray.html">MapStringToStringArray</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/MapStringToStringArrayEntry" data-name="mappings::mapstringtostringarrayentry">
+      <a href="../../Mappings/MapStringToStringArrayEntry.html">MapStringToStringArrayEntry</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/MapStringToStringArrayEntry/DataType" data-name="mappings::mapstringtostringarrayentry::datatype">
+      <a href="../../Mappings/MapStringToStringArrayEntry/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/MqttOptions" data-name="mappings::mqttoptions">
+      <a href="../../Mappings/MqttOptions.html">MqttOptions</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/NluIntentAlternative" data-name="mappings::nluintentalternative">
+      <a href="../../Mappings/NluIntentAlternative.html">NluIntentAlternative</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/NluIntentAlternative/DataType" data-name="mappings::nluintentalternative::datatype">
+      <a href="../../Mappings/NluIntentAlternative/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/NluIntentAlternativeArray" data-name="mappings::nluintentalternativearray">
+      <a href="../../Mappings/NluIntentAlternativeArray.html">NluIntentAlternativeArray</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/NluIntentClassifierResult" data-name="mappings::nluintentclassifierresult">
+      <a href="../../Mappings/NluIntentClassifierResult.html">NluIntentClassifierResult</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/NluIntentClassifierResult/DataType" data-name="mappings::nluintentclassifierresult::datatype">
+      <a href="../../Mappings/NluIntentClassifierResult/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/NluSlotArray" data-name="mappings::nluslotarray">
+      <a href="../../Mappings/NluSlotArray.html">NluSlotArray</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/RegisterSoundMessage" data-name="mappings::registersoundmessage">
+      <a href="../../Mappings/RegisterSoundMessage.html">RegisterSoundMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/RegisterSoundMessage/DataType" data-name="mappings::registersoundmessage::datatype">
+      <a href="../../Mappings/RegisterSoundMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionEndedMessage" data-name="mappings::sessionendedmessage">
+      <a href="../../Mappings/SessionEndedMessage.html">SessionEndedMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionEndedMessage/DataType" data-name="mappings::sessionendedmessage::datatype">
+      <a href="../../Mappings/SessionEndedMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionQueuedMessage" data-name="mappings::sessionqueuedmessage">
+      <a href="../../Mappings/SessionQueuedMessage.html">SessionQueuedMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionQueuedMessage/DataType" data-name="mappings::sessionqueuedmessage::datatype">
+      <a href="../../Mappings/SessionQueuedMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionStartedMessage" data-name="mappings::sessionstartedmessage">
+      <a href="../../Mappings/SessionStartedMessage.html">SessionStartedMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionStartedMessage/DataType" data-name="mappings::sessionstartedmessage::datatype">
+      <a href="../../Mappings/SessionStartedMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionTermination" data-name="mappings::sessiontermination">
+      <a href="../../Mappings/SessionTermination.html">SessionTermination</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SessionTermination/DataType" data-name="mappings::sessiontermination::datatype">
+      <a href="../../Mappings/SessionTermination/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/Slot" data-name="mappings::slot">
+      <a href="../../Mappings/Slot.html">Slot</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/Slot/DataType" data-name="mappings::slot::datatype">
+      <a href="../../Mappings/Slot/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SlotValue" data-name="mappings::slotvalue">
+      <a href="../../Mappings/SlotValue.html">SlotValue</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SlotValue/DataType" data-name="mappings::slotvalue::datatype">
+      <a href="../../Mappings/SlotValue/DataType.html">DataType</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SlotValue/DataValueType" data-name="mappings::slotvalue::datavaluetype">
+      <a href="../../Mappings/SlotValue/DataValueType.html">DataValueType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SlotValueArray" data-name="mappings::slotvaluearray">
+      <a href="../../Mappings/SlotValueArray.html">SlotValueArray</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/elbywan/hermes-crystal/Mappings/StartSessionMessage" data-name="mappings::startsessionmessage">
+      <a href="../../Mappings/StartSessionMessage.html">StartSessionMessage</a>
+      
+        <ul>
+  
+  <li class=" current" data-id="github.com/elbywan/hermes-crystal/Mappings/StartSessionMessage/DataType" data-name="mappings::startsessionmessage::datatype">
+      <a href="../../Mappings/StartSessionMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/StringArray" data-name="mappings::stringarray">
+      <a href="../../Mappings/StringArray.html">StringArray</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/TemperatureValue" data-name="mappings::temperaturevalue">
+      <a href="../../Mappings/TemperatureValue.html">TemperatureValue</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/TemperatureValue/DataType" data-name="mappings::temperaturevalue::datatype">
+      <a href="../../Mappings/TemperatureValue/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/TimeIntervalValue" data-name="mappings::timeintervalvalue">
+      <a href="../../Mappings/TimeIntervalValue.html">TimeIntervalValue</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/TimeIntervalValue/DataType" data-name="mappings::timeintervalvalue::datatype">
+      <a href="../../Mappings/TimeIntervalValue/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">alias</span> Mappings::StartSessionMessage::DataType
+
+</h1>
+
+
+
+
+
+
+
+  <h2>Alias Definition</h2>
+  <code>{site_id: String?, custom_data: String?, init: Mappings::SessionInit}</code>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L121" target="_blank">
+        bindings/mappings.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>

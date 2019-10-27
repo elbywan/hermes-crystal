@@ -1,7 +1,13 @@
 require "./bindings"
 require "./utils"
 
-# Contains high-level mappings to the hermes library.
+# **Contains high-level serializable mappings to the hermes library data structures.**
+#
+# When using publish or subscribe functions, the classes defined in this module
+# will be used in place of the low level c structures.
+#
+# These classes are very handy since they can be initialized using plain records and arrays.
+# They also implement the `to_unsafe` method and can be converted from and to c structures easily.
 module Mappings
   include Bindings
   include Utils
@@ -23,7 +29,6 @@ module Mappings
   # - tls_client_key: Client key to use if TLS is enabled. Nullable.
   # - tls_client_cert: Client cert to use if TLS is enabled. Nullable.
   # - tls_disable_root_store: Boolean indicating if the root store should be disabled if TLS is enabled.
-  #
   class MqttOptions
     def initialize(
       @broker_address = "",
@@ -57,16 +62,26 @@ module Mappings
     end
   end
 
-  # An array of strings.
+  # An array of `String`.
   struct_array_map StringArray, String
 
+  # Data used to initialize a session of type "Action".
+  #
+  # - text [`String`] : If defined, a text to speak when the session is started.
+  # - intent_filter [`StringArray`] : Nullable, an optional list of intent name to restrict the parsing of the user response to.
+  # - can_be_enqueued [`Bool`] : A boolean to indicate if the session can be enqueued if it can't be started immediately.
+  # - send_intent_not_recognized [`Bool`] :
+  # A boolean to indicate whether the dialogue manager should handle non recognized intents by
+  # itself or sent them as an `CIntentNotRecognizedMessage` for the client to handle. This
+  # setting applies only to the next conversation turn.
   struct_map ActionSessionInit,
     text : String?,
     intent_filter : StringArray?,
     can_be_enqueued : Bool,
     send_intent_not_recognized : Bool
 
-  class SessionInit < Mapping
+  # An class symbolizing session data that is either wrapping a `String` or an `ActionSessionInit`.
+  private class SessionInit < Mapping
     Utils.mapping(String | ActionSessionInit) do
       if data.is_a?(String)
         @data = data
@@ -98,11 +113,32 @@ module Mappings
     end
   end
 
+  # A message that is used to initiate a session.
+  #
+  # - init [`String` | `ActionSessionInit`] : The way this session should be created.
+  # - site_id [`String`] : The site where the session should be started, a nil value will be interpreted as "default".
+  # - custom_data [`String`] : Optional data that will be passed to the next session event.
   struct_map StartSessionMessage,
     site_id : String?,
     custom_data : String?,
     init : SessionInit
 
+  # A message used to continue a session.
+  #
+  # - session_id [`String`] : The id of the session this action applies to.
+  # - text [`String`] : The text to say to the user.
+  # - intent_filter [`StringArray`] : Nullable, an optional list of intent name to restrict the parsing of the user response to.
+  # - custom_data [`String`] : Optional data that will be passed to the next session event.
+  # - slot : [`String`] :
+  #  Nullable,  An optional string, requires `intent_filter` to contain a single value. If set,
+  # the dialogue engine will not run the the intent classification on the user response and go
+  # straight to slot filling, assuming the intent is the one passed in the `intent_filter`, and
+  # searching the value of the given slot.
+  # - send_intent_not_recognized [`Bool`] :
+  # A boolean to indicate whether the dialogue manager should handle not recognized
+  # intents by itself or sent them as a `CIntentNotRecognizedMessage` for the client to handle.
+  # This setting applies only to the next conversation turn. The default value is false (and
+  # the dialogue manager will handle non recognized intents by itself).
   struct_map ContinueSessionMessage,
     session_id : String,
     text : String,
@@ -111,54 +147,110 @@ module Mappings
     slot : String?,
     send_intent_not_recognized : Bool
 
+  # A message sent when a session is queued.
+  #
+  # - session_id [`String`] : The id of the session that was queued.
+  # - custom_data [`String`] : Nullable, the custom data that was given at the creation of the session.
+  # - site_id [`String`] : The site on which this session was queued.
   struct_map SessionQueuedMessage,
     session_id : String,
     custom_data : String?,
     site_id : String
 
+  # A message sent when a session is started.
+  #
+  # - session_id [`String`] : The id of the session that was started.
+  # - custom_data [`String`] : Nullable, the custom data that was given at the creation of the session.
+  # - site_id [`String`] : The site on which this session was started.
+  # - reactivated_from_session_id [`String`] :
+  # Nullable, this field indicates this session is a reactivation of a previously ended session.
+  # This is for example provided when the user continues talking to the platform without saying
+  # the hotword again after a session was ended.
   struct_map SessionStartedMessage,
     session_id : String,
     custom_data : String?,
     site_id : String,
     reactivated_from_session_id : String?
 
+  # Data related to session termination.
+  #
+  # - termination_type [`SnipsSessionTerminationType`] : The type of the termination.
+  # - data [`String`] :
+  # Nullable, set if the type is `SnipsSessionTerminationType::Error` and gives more info about the error that happened.
+  # - component [`SnipsHermesComponent`] :
+  # If the type is `SnipsSessionTerminationType::Timeout`, this field contains the component id that generated the timeout.
   struct_map SessionTermination,
     termination_type : SnipsSessionTerminationType,
     data : String?,
     component : SnipsHermesComponent
 
+  # A message sent when a session is ended.
+  #
+  # - session_id [`String`] : The id of the session that was terminated.
+  # - custom_data [`String`] : Nullable, the custom data associated to this session.
+  # - termination [`SessionTermination`] : How the session was ended.
+  # - site_id [`String`] : The site on which this session took place.
   struct_map SessionEndedMessage,
     session_id : String,
     custom_data : String?,
     termination : SessionTermination,
     site_id : String
 
+  # An instant time slot value.
+  #
+  # - value [`String`] : String representation of the instant.
+  # - grain [`SnipsGrain`] : The grain of the resolved instant.
+  # - precision [`SnipsPrecision`] : The precision of the resolved instant.
   struct_map InstantTimeValue,
     value : String,
     grain : SnipsGrain,
     precision : SnipsPrecision
 
-  alias InstantTimeValueData = {value: String, grain: SnipsGrain, precision: SnipsPrecision}
+  private alias InstantTimeValueData = {value: String, grain: SnipsGrain, precision: SnipsPrecision}
 
+  # A time interval slot value.
+  #
+  # - from [`String`] : String representation of the beginning of the interval.
+  # - to [`String`] : String representation of the end of the interval.
   struct_map TimeIntervalValue,
     from : String,
     to : String
 
-  alias TimeIntervalValueData = {from: String, to: String}
+  private alias TimeIntervalValueData = {from: String, to: String}
 
+  # An amount of money slot value.
+  #
+  # - unit [`String`] : The currency.
+  # - value [`Float32`] : The amount of money.
+  # - precision [`SnipsPrecision`] : The precision of the resolved value.
   struct_map AmountOfMoneyValue,
     unit : String,
     value : LibC::Float,
     precision : SnipsPrecision
 
-  alias AmountOfMoneyValueData = {unit: String, value: LibC::Float, precision: SnipsPrecision}
+  private alias AmountOfMoneyValueData = {unit: String, value: LibC::Float, precision: SnipsPrecision}
 
+  # A temperature slot value.
+  #
+  # - unit [`String`] : The unit used.
+  # - value [`Float32`] : The temperature resolved.
   struct_map TemperatureValue,
     unit : String,
     value : LibC::Float
 
-  alias TemperatureValueData = {unit: String, value: LibC::Float}
+  private alias TemperatureValueData = {unit: String, value: LibC::Float}
 
+  # A duration slot value.
+  #
+  # year [`Int64`] : Number of years in the duration.
+  # quarters [`Int64`] : Number of quarters in the duration.
+  # months [`Int64`] : Number of months in the duration.
+  # weeks [`Int64`] : Number of weeks in the duration.
+  # days [`Int64`] : Number of days in the duration.
+  # hours [`Int64`] : Number of hours in the duration.
+  # minutes [`Int64`] : Number of minutes in the duration.
+  # seconds [`Int64`] : Number of seconds in the duration.
+  # precision [`SnipsPrecision`] : Precision of the resolved value.
   struct_map DurationValue,
     year : LibC::LongLong,
     quarters : LibC::LongLong,
@@ -170,8 +262,12 @@ module Mappings
     seconds : LibC::LongLong,
     precision : SnipsPrecision
 
-  alias DurationValueData = {year: LibC::LongLong, quarters: LibC::LongLong, months: LibC::LongLong, weeks: LibC::LongLong, days: LibC::LongLong, hours: LibC::LongLong, minutes: LibC::LongLong, seconds: LibC::LongLong, precision: SnipsPrecision}
+  private alias DurationValueData = {year: LibC::LongLong, quarters: LibC::LongLong, months: LibC::LongLong, weeks: LibC::LongLong, days: LibC::LongLong, hours: LibC::LongLong, minutes: LibC::LongLong, seconds: LibC::LongLong, precision: SnipsPrecision}
 
+  # A slot value.
+  #
+  # - value [`DataValueType`] : The value of the slot.
+  # - value_type [`SnipsSlotValueType`] : The type of the value.
   class SlotValue < Mapping
     alias DataType = {value: DataValueType, value_type: SnipsSlotValueType}
     alias DataValueType = String |
@@ -315,11 +411,22 @@ module Mappings
     end
   end
 
+  # An array of `SlotValue`.
   struct_array_map SlotValueArray,
     SlotValue,
     data_field: slot_values,
     size_type: Int32
 
+  # Slot data.
+  #
+  # - value [`SlotValue`] : The resolved value of the slot.
+  # - alternatives [`SlotValueArray`] : The alternative slot values.
+  # - raw_value [`String`] : The raw value as it appears in the input text.
+  # - entity [`String`] : Name of the entity type of the slot.
+  # - slot_name [`String`] : Name of the slot.
+  # - range_start [`Int32`] : Start index of raw value in input text.
+  # - range_end [`Int32`] : End index of raw value in input text.
+  # - confidence_score [`Float32`] : Confidence score of the slot.
   struct_map Slot,
     value : SlotValue = {ptr: true},
     alternatives : SlotValueArray = {ptr: true},
@@ -330,6 +437,7 @@ module Mappings
     range_end : LibC::Int32T,
     confidence_score : LibC::Float
 
+  # An array of `Slot`.
   struct_array_map NluSlotArray,
     Slot,
     data_field: entries,
@@ -346,25 +454,46 @@ module Mappings
       nlu_slot_ptr
     )
 
+  # Result of the intent classifier.
+  #
+  # - intent_name [`String`] : Name of the intent detected.
+  # - confidence_score [`Float32`] : Confidence score, comprised between 0 and 1.
   struct_map NluIntentClassifierResult,
     intent_name : String,
     confidence_score : LibC::Float
 
+  # Alternative intent resolutions.
+  #
+  # - intent_name [`String`] : Nullable, name of the intent detected (null = no intent).
+  # - slots [`NluSlotArray`] : Nullable, array of slots detected.
+  # - confidence_score [`Float32`] : Confidence score.
   struct_map NluIntentAlternative,
     intent_name : String?,
     slots : NluSlotArray? = {ptr: true},
     confidence_score : LibC::Float
 
+  # Array of `NluIntentAlternative`.
   struct_array_map NluIntentAlternativeArray,
     NluIntentAlternative,
     dbl_ptr: true,
     data_field: entries,
     size_field: count
 
+  # An ASR decoding duration.
+  #
+  # - start [`Float32`] : The beginning of the decoding.
+  # - end [`Float32`] : The end of the decoding.
   struct_map AsrDecodingDuration,
     start : LibC::Float,
     end_ : LibC::Float
 
+  # An ASR token.
+  #
+  # - value [`String`] : The text value decoded in the token.
+  # - confidence [`Float32`] : The confidence score.
+  # - range_start [`Int32`] : The beginning of the range in the whole text.
+  # - range_end [`Int32`] : The end of the range in the whole text.
+  # - time [`AsrDecodingDuration`] : The time at which the token was spoken.
   struct_map AsrToken,
     value : String,
     confidence : LibC::Float,
@@ -372,18 +501,34 @@ module Mappings
     range_end : LibC::Int,
     time : AsrDecodingDuration
 
+  # An array of `AsrToken`.
   struct_array_map AsrTokenArray,
     AsrToken,
     dbl_ptr: true,
     data_field: entries,
     size_field: count
 
+  # An array of `AsrTokenArray`.
   struct_array_map AsrTokenDoubleArray,
     AsrTokenArray,
     dbl_ptr: true,
     data_field: entries,
     size_field: count
 
+  # A message sent on intent detection.
+  #
+  # - session_id [`String`] : The session identifier in which this intent was detected.
+  # - custom_data [`String`] : Nullable, the custom data that was given at the session creation.
+  # - site_id [`String`] : The site where the intent was detected.
+  # - input [`String`] : The input that generated this intent.
+  # - intent [`NluIntentClassifierResult`] : The result of the intent classification.
+  # - slots [`NluSlotArray`] : Nullable, the detected slots, if any.
+  # - alternatives [`NluIntentAlternativeArray`] : Nullable, alternatives intent resolutions.
+  # - asr_tokens [`AsrTokenDoubleArray`] :
+  # Nullable, the tokens detected by the ASR, the first array level represents the asr
+  # invocation, the second one the tokens.
+  # - asr_confidence [`Float32`] :
+  # Confidence of the asr capture, this value is optional. Any value not in [0,1] should be ignored.
   struct_map IntentMessage,
     session_id : String,
     custom_data : String?,
@@ -395,6 +540,14 @@ module Mappings
     asr_tokens : AsrTokenDoubleArray? = {ptr: true},
     asr_confidence : LibC::Float
 
+  # A message sent when no intents were recognized.
+  #
+  # - site_id [`String`] : The site where no intent was recognized.
+  # - session_id [`String`] : The session in which no intent was recognized.
+  # - input [`String`] : Nullable, the text that didn't match any intent.
+  # - custom_data [`String`] : Nullable, the custom data that was given at the session creation.
+  # - alternatives [`NluIntentAlternativeArray`] : Nullable, alternative intent resolutions.
+  # - confidence_score [`Float32`] : Expresses the confidence that no intent was found.
   struct_map IntentNotRecognizedMessage,
     site_id : String,
     session_id : String,
@@ -403,45 +556,79 @@ module Mappings
     alternatives : NluIntentAlternativeArray? = {ptr: true},
     confidence_score : LibC::Float
 
+  # A message that is used to terminate a session.
+  #
+  # - session_id [`String`] : The id of the session to end.
+  # - text [`String`] : Nullable, an optional text to be told to the user before ending the session.
   struct_map EndSessionMessage,
     session_id : String,
     text : String?
 
+  # A `MapStringToStringArray` entry.
+  #
+  # - key [`String`] : The entry key.
+  # - value [`StringArray`] : The entry value.
   struct_map MapStringToStringArrayEntry,
     key : String,
     value : StringArray
 
+  # An array of `MapStringToStringArrayEntry`.
   struct_array_map MapStringToStringArray,
     MapStringToStringArrayEntry,
     data_field: entries,
     size_field: count,
     dbl_ptr: true
 
+  # A list of entities mapping to a list of words to inject.
+  #
+  # - values [`MapStringToStringArray`] : Values to inject.
+  # - kind [`SnipsInjectionKind`] : The type of injection to perform.
   struct_map InjectionRequestOperation,
     values : MapStringToStringArray = {ptr: true},
     kind : SnipsInjectionKind
 
+  # An array of `InjectionRequestOperation`.
   struct_array_map InjectionRequestOperations,
     InjectionRequestOperation,
     data_field: operations,
     size_field: count,
     dbl_ptr: true
 
+  # A message used to inject values.
+  #
+  # - operations [`InjectionRequestOperations`] : The injection operations to perform.
+  # - lexicon [`MapStringToStringArray`] : Custom pronunciations.
+  # - cross_language [`String`] : Nullable, an extra language to compute the pronunciations for.
+  # - id [`String`] : Id of the injection request.
   struct_map InjectionRequestMessage,
     operations : InjectionRequestOperations = {ptr: true},
     lexicon : MapStringToStringArray = {ptr: true},
     cross_language : String?,
     id : String?
 
+  # A message sent when an injection request has completed.
+  #
+  # - request_id [`String`] : : Id of the injection request.
   struct_map InjectionCompleteMessage,
     request_id : String
 
+  # A message used to reset previously injected values.
+  #
+  # - request_id [`String`] : : Id of the injection request.
   struct_map InjectionResetRequestMessage,
     request_id : String
 
+  # A message sent when an injection reset request has completed.
+  #
+  # - request_id [`String`] : : Id of the injection request.
   struct_map InjectionResetCompleteMessage,
     request_id : String
 
+  # A message used to register a sound and make it useable from the tts.
+  #
+  # - sound_id [`String`] : Sound label.
+  # - wav_sound [`Array(UInt8)`] : Sound buffer (Wav PCM16).
+  # - wav_sound_len [`Int32`] : Length of the sound buffer.
   struct_map RegisterSoundMessage,
     sound_id : String,
     wav_sound : Array(UInt8) = {
@@ -451,17 +638,28 @@ module Mappings
     },
     wav_sound_len : Int32
 
+  # Configure (enable or disable) an intent.
+  #
+  # - intent_id [`String`] : The name of the intent that should be configured.
+  # - enable [`Bool`] : Whether this intent should be activated or not.
   struct_map DialogueConfigureIntent,
     intent_id : String,
     enable : Bool
 
+  # Array of `DialogueConfigureIntent`.
   struct_array_map DialogueConfigureIntentArray,
     DialogueConfigureIntent,
     data_field: entries,
     size_field: count,
     dbl_ptr: true
 
+  # A message used to enable or disable intent resolution.
+  #
+  # - site_id [`String`] :
+  # Nullable, the site on which this configuration applies, if `null` the configuration will
+  # be applied to all sites.
+  # - intents [`DialogueConfigureIntentArray`] : An array of intents to configure.
   struct_map DialogueConfigureMessage,
-    site_id : String,
+    site_id : String?,
     intents : DialogueConfigureIntentArray = {ptr: true}
 end

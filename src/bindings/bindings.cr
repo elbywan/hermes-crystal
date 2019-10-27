@@ -1,7 +1,8 @@
 require "./enums"
 
 # Contains low level bindings to the hermes library.
-# This module is not meant to be used directly.
+#
+# **This module is not meant to be used internally, as opposed to the `Mappings` module.**
 module Bindings
   include Enums
 
@@ -84,18 +85,9 @@ module Bindings
     end
 
     struct CActionSessionInit
-      # Nullable, an optional text to be told to the user.
       text : LibC::Char*
-      # Nullable, an optional list of intent name to restrict the parsing of the user response to.
       intent_filter : CStringArray*
-      # A boolean to indicate if the session can be enqueued if it can't be started immediately
-      # (ie there is another running session on the site).
-      # 1 = true, 0 = false.
       can_be_enqueued : UInt8
-      # A boolean to indicate whether the dialogue manager should handle non recognized intents by
-      # itself or sent them as an `CIntentNotRecognizedMessage` for the client to handle. This
-      # setting applies only to the next conversation turn.
-      # 1 = true, 0 = false
       send_intent_not_recognized : UInt8
     end
 
