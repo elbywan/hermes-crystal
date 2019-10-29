@@ -11,7 +11,7 @@ class Api::Tts
 
   # Publish a message to register a sound and make it useable from the tts.
   def publish_register_sound(message)
-    call! LibHermes.hermes_tts_publish_register_sound(@facade, message)
+    call! LibHermes.hermes_tts_publish_register_sound(@facade, ptr_alloc RegisterSoundMessage.new(message).to_unsafe)
   end
 
   protected def destroy

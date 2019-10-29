@@ -9,7 +9,7 @@ macro round_trip(message_name, method_suffix, message_body)
 end
 
 describe Bindings do
-  describe "should perform round-trips on data structures" do
+  describe "should perform a round-trip on the following data structure:" do
     it "SessionQueuedMessage" do
       round_trip SessionQueuedMessage, session_queued, {
         session_id:  "session id",

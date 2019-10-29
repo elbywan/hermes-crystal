@@ -11,12 +11,12 @@ class Api::Feedback
 
   # Publish a message that toggles on the feedback sound.
   def publish_toggle_on(message)
-    call! LibHermes.hermes_sound_feedback_publish_toggle_on(@facade, message)
+    call! LibHermes.hermes_sound_feedback_publish_toggle_on(@facade, ptr_alloc SiteMessage.new(message).to_unsafe)
   end
 
   # Publish a message that toggles off the feedback sound.
   def publish_toggle_off(message)
-    call! LibHermes.hermes_sound_feedback_publish_toggle_off(@facade, message)
+    call! LibHermes.hermes_sound_feedback_publish_toggle_off(@facade, ptr_alloc SiteMessage.new(message).to_unsafe)
   end
 
   protected def destroy

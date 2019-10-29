@@ -1,7 +1,7 @@
 require "sam"
 require "file_utils"
 
-library_path = "#{FileUtils.pwd}/hermes-protocol/target/debug"
+library_path = "#{FileUtils.pwd}/hermes-protocol/target/debug:/usr/local/opt/openssl/lib"
 
 # desc "Build the library"
 # task "build" do
@@ -13,7 +13,7 @@ desc "Runs the test suite"
 task "test" do
   ENV["LIBRARY_PATH"] ||= library_path
   ENV["RUST_LOG"] ||= "debug"
-  puts `crystal spec`
+  puts `crystal spec --error-trace`
 end
 
 namespace "generate" do

@@ -18,7 +18,7 @@ module Bindings::Utils
   end
 
   macro assign_bool(id)
-    assign {{id}} do
+    Bindings::Utils.assign {{id}} do
       @data["{{id}}"] ? 1_i8 : 0_i8
     end
   end
@@ -130,12 +130,12 @@ module Bindings::Utils
           {% for arg in args %}
             {% if arg.value && arg.value["to_c"] %}
               # Custom
-              assign {{ arg.var }} do
+              Bindings::Utils.assign {{ arg.var }} do
                 {{ arg.value["to_c"] }}
               end
             {% elsif arg.type.resolve.union_types.includes? StringArray %}
               # Others
-              assign {{ arg.var }} do
+              Bindings::Utils.assign {{ arg.var }} do
                 {% if arg.type.resolve.nilable? %}
                   @data["{{ arg.var }}"].try { |i| ptr_alloc(i.to_unsafe) }
                 {% else %}
@@ -144,15 +144,15 @@ module Bindings::Utils
               end
             {% elsif arg.type.resolve.union_types.any? { |t| t < Mapping || t < ArrayMapping } && arg.value && arg.value["ptr"] %}
               # Mapping pointer
-              assign {{ arg.var }} do
+              Bindings::Utils.assign {{ arg.var }} do
                 ptr_alloc({{ arg.var }}.to_unsafe)
               end
             {% elsif arg.type.resolve.union_types.includes? Bool %}
               # Core value types
-              assign_bool {{ arg.var }}
+              Bindings::Utils.assign_bool {{ arg.var }}
             {% else %}
               # Default
-              assign {{ arg.var }}
+              Bindings::Utils.assign {{ arg.var }}
             {% end %}
           {% end %}
 

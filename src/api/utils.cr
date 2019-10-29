@@ -1,13 +1,13 @@
 module Api::Utils
   macro generate_subscriber(facade, topic, message, drop)
     # Subscribe to {{topic.id}} events.
-    def subscribe_{{topic.id}}(*extra_args, once = false, &callback : LibHermes::{{message}} -> Void)
+    def subscribe_{{topic.id}}(*extra_args, once = false, &callback : {{message}} -> Void)
       unless @subscriptions.has_key? {{topic}}
         @subscriptions["#{{{topic}}}"] = [] of Void*
-        dispatcher =  ->(message: LibHermes::{{message}}*, boxed_subscriptions : Void*) {
+        dispatcher =  ->(message: LibHermes::C{{message}}*, boxed_subscriptions : Void*) {
           subscriptions = Box(Hash(String, Array(Void*))).unbox(boxed_subscriptions)
           subscriptions[{{topic}}].each do |boxed_callback|
-            Box(LibHermes::{{message}} -> Void).unbox(boxed_callback).call(message.value)
+            Box({{message}} -> Void).unbox(boxed_callback).call({{message}}.new message.value)
           end
           LibHermes.{{drop}}(message)
         }
@@ -16,7 +16,7 @@ module Api::Utils
 
       if once
         delete_callback = uninitialized -> Nil
-        boxed_callback = Box.box(->(message: LibHermes::{{message}}) {
+        boxed_callback = Box.box(->(message: {{message}}) {
           callback.call(message)
           delete_callback.call()
         })

@@ -12,10 +12,10 @@ module Mappings
   include Bindings
   include Utils
 
-  private class Mapping
+  private abstract class Mapping
   end
 
-  private class ArrayMapping
+  private abstract class ArrayMapping
   end
 
   # A class representing the configuration of the MQTT client.
@@ -624,6 +624,12 @@ module Mappings
   struct_map InjectionResetCompleteMessage,
     request_id : String
 
+  # A message sent when a status update has been requested.
+  #
+  # - last_injection_date [`String`] : Date at which the latest injection happened.
+  struct_map InjectionStatusMessage,
+    last_injection_date : String
+
   # A message used to register a sound and make it useable from the tts.
   #
   # - sound_id [`String`] : Sound label.
@@ -662,4 +668,12 @@ module Mappings
   struct_map DialogueConfigureMessage,
     site_id : String?,
     intents : DialogueConfigureIntentArray = {ptr: true}
+
+  # A message used to target a site.
+  #
+  # - site_id [`String`] : The id of the targeted site.
+  # - session_id [`String`] : Nullable, the id of the session.
+  struct_map SiteMessage,
+    site_id : String,
+    session_id : String?
 end

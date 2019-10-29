@@ -1,8 +1,16 @@
+require "socket"
 require "spec"
 require "../src/main"
 
 include Bindings
 include Mappings
+
+def find_open_port
+  server = TCPServer.new("localhost", 0)
+  port = server.local_address.port
+  server.close
+  port
+end
 
 @[Link("hermes_ffi_test")]
 lib HermesFFITest

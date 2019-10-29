@@ -1,0 +1,81 @@
+{
+    "sessionId": "677a2717-7ac8-44f8-9013-db2222f7923d",
+    "customData": "customThing",
+    "siteId": "default",
+    "input": "moi du vert",
+    "intent": {
+        "intentName": "jelb:lightsColor",
+        "confidenceScore": 0.5
+    },
+    "asrConfidence": 0.5,
+    "asrTokens": [
+        [{
+                "value": "moi",
+                "confidence": 0.5,
+                "rangeStart": 0,
+                "rangeEnd": 3,
+                "time": {
+                    "start": 0.5,
+                    "end": 1
+                }
+            },
+            {
+                "value": "du",
+                "confidence": 0.5,
+                "rangeStart": 4,
+                "rangeEnd": 6,
+                "time": {
+                    "start": 1,
+                    "end": 1.5
+                }
+            },
+            {
+                "value": "vert",
+                "confidence": 0.5,
+                "rangeStart": 7,
+                "rangeEnd": 11,
+                "time": {
+                    "start": 1.5,
+                    "end": 2.5
+                }
+            }
+        ]
+    ],
+    "slots": [{
+        "confidenceScore": 0.5,
+        "rawValue": "vert",
+        "value": {
+            "kind": "Custom",
+            "value": "vert"
+        },
+        "alternatives": [{
+            "kind": "Custom",
+            "value": "blue"
+        }],
+        "range": {
+            "start": 7,
+            "end": 11
+        },
+        "entity": "Color",
+        "slotName": "Color"
+    }],
+    "alternatives": [{
+        "intentName": "alternativeIntent",
+        "confidenceScore": 0.5,
+        "slots": [{
+            "confidenceScore": 0.5,
+            "rawValue": "blue",
+            "value": {
+                "kind": "Custom",
+                "value": "blue"
+            },
+            "alternatives": [],
+            "range": {
+                "start": 7,
+                "end": 11
+            },
+            "entity": "Color",
+            "slotName": "Color"
+        }]
+    }]
+}
