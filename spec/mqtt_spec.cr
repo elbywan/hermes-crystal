@@ -15,10 +15,10 @@ Spec.before_suite {
   mosquitto = Process.new(
     "mosquitto",
     ["-p", mosquitto_port.to_s, "-v"],
+    # output: Process::Redirect::Inherit,
+    # error: Process::Redirect::Inherit,
     output: Process::Redirect::Close,
     error: Process::Redirect::Close
-    # output: Process::Redirect::Inherit,
-    # error: Process::Redirect::Inherit
   )
   puts "> Mosquitto launched.".colorize(:green)
   sleep 0.5
@@ -156,11 +156,11 @@ describe Hermes do
         topic: "hermes/dialogueManager/continueSession",
         facade: dialog,
         message: {
-          session_id: "677a2717-7ac8-44f8-9013-db2222f7923d",
-          text: "text",
-          intent_filter: ["intentA", "intentB"],
-          custom_data: nil,
-          slot: nil,
+          session_id:                 "677a2717-7ac8-44f8-9013-db2222f7923d",
+          text:                       "text",
+          intent_filter:              ["intentA", "intentB"],
+          custom_data:                nil,
+          slot:                       nil,
           send_intent_not_recognized: true,
         },
         expected: "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"text\",\"intentFilter\":[\"intentA\",\"intentB\"],\"customData\":null,\"sendIntentNotRecognized\":true,\"slot\":null}",
@@ -172,7 +172,7 @@ describe Hermes do
         facade: dialog,
         message: {
           session_id: "session id",
-          text: "Session ended",
+          text:       "Session ended",
         },
         expected: "{\"sessionId\":\"session id\",\"text\":\"Session ended\"}",
       )
@@ -197,20 +197,20 @@ describe Hermes do
         topic: "hermes/injection/perform",
         facade: injection,
         message: {
-          id: "abcdef",
+          id:             "abcdef",
           cross_language: "en",
-          lexicon: [
+          lexicon:        [
             {
-              key: "films",
+              key:   "films",
               value: ["The Wolf of Wall Street", "The Lord of the Rings"],
             },
           ],
           operations: [
             {
-              kind: SnipsInjectionKind::Add,
+              kind:   SnipsInjectionKind::Add,
               values: [
                 {
-                  key: "films",
+                  key:   "films",
                   value: [
                     "The Wolf of Wall Street",
                     "The Lord of the Rings",
@@ -236,7 +236,7 @@ describe Hermes do
         topic: "hermes/feedback/sound/toggleOn",
         facade: feedback,
         message: {
-          site_id: "default",
+          site_id:    "default",
           session_id: "id",
         },
         expected: "{\"siteId\":\"default\",\"sessionId\":\"id\"}",
@@ -247,7 +247,7 @@ describe Hermes do
         topic: "hermes/feedback/sound/toggleOff",
         facade: feedback,
         message: {
-          site_id: "default",
+          site_id:    "default",
           session_id: "id",
         },
         expected: "{\"siteId\":\"default\",\"sessionId\":\"id\"}",

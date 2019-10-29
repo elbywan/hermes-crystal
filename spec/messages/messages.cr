@@ -11,30 +11,29 @@ module Messages
   })
 
   class_getter session_queued = SessionQueuedMessage.new ({
-    session_id: "Session id",
+    session_id:  "Session id",
     custom_data: "Custom data",
-    site_id: "Site id",
+    site_id:     "Site id",
   })
 
-
   class_getter session_ended = SessionEndedMessage.new ({
-    session_id: "677a2717-7ac8-44f8-9013-db2222f7923d",
+    session_id:  "677a2717-7ac8-44f8-9013-db2222f7923d",
     custom_data: nil,
     termination: {
       termination_type: SnipsSessionTerminationType::Error,
-      data: "Error message",
-      component: SnipsHermesComponent::None,
+      data:             "Error message",
+      component:        SnipsHermesComponent::None,
     },
     site_id: "default",
   })
 
   class_getter intent_not_recognized = IntentNotRecognizedMessage.new ({
-    session_id: "677a2717-7ac8-44f8-9013-db2222f7923d",
-    custom_data: "data",
-    site_id: "site id",
-    input: "Hello world",
+    session_id:       "677a2717-7ac8-44f8-9013-db2222f7923d",
+    custom_data:      "data",
+    site_id:          "site id",
+    input:            "Hello world",
     confidence_score: 0.5_f32,
-    alternatives: nil,
+    alternatives:     nil,
   })
 
   class_getter intent = IntentMessage.new ({
@@ -129,15 +128,15 @@ module Messages
   })
 
   class_getter injection_complete = InjectionCompleteMessage.new ({
-    request_id: "id"
+    request_id: "id",
   })
 
   class_getter injection_reset_complete = InjectionResetCompleteMessage.new ({
-    request_id: "id"
+    request_id: "id",
   })
 
   class_getter site_message = SiteMessage.new({
-    site_id: "default",
-    session_id: "session id"
+    site_id:    "default",
+    session_id: "session id",
   })
 end

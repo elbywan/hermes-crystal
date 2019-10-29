@@ -51,6 +51,26 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Api/Flow" data-name="api::flow">
+      <a href="../Api/Flow.html">Flow</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentContinuation" data-name="api::flow::intentcontinuation">
+      <a href="../Api/Flow/IntentContinuation.html">IntentContinuation</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentNotRecognizedContinuation" data-name="api::flow::intentnotrecognizedcontinuation">
+      <a href="../Api/Flow/IntentNotRecognizedContinuation.html">IntentNotRecognizedContinuation</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" current" data-id="github.com/elbywan/hermes-crystal/Api/Injection" data-name="api::injection">
       <a href="../Api/Injection.html">Injection</a>
       
@@ -376,6 +396,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage" data-name="mappings::injectionstatusmessage">
+      <a href="../Mappings/InjectionStatusMessage.html">InjectionStatusMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage/DataType" data-name="mappings::injectionstatusmessage::datatype">
+      <a href="../Mappings/InjectionStatusMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InstantTimeValue" data-name="mappings::instanttimevalue">
       <a href="../Mappings/InstantTimeValue.html">InstantTimeValue</a>
       
@@ -561,6 +596,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage" data-name="mappings::sitemessage">
+      <a href="../Mappings/SiteMessage.html">SiteMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage/DataType" data-name="mappings::sitemessage::datatype">
+      <a href="../Mappings/SiteMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/Slot" data-name="mappings::slot">
       <a href="../Mappings/Slot.html">Slot</a>
       
@@ -700,7 +750,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L4" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L4" target="_blank">
         api/injection.cr
       </a>
     
@@ -740,21 +790,21 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_injection_complete(*extra_args,once=false,&callback:LibHermes::CInjectionComplete-%3EVoid)-instance-method" class="signature"><strong>#subscribe_injection_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CInjectionComplete -> Void)</a>
+        <a href="#subscribe_injection_complete(*extra_args,once=false,&callback:InjectionCompleteMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_injection_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : InjectionCompleteMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to injection_complete events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_injection_reset_complete(*extra_args,once=false,&callback:LibHermes::CInjectionResetComplete-%3EVoid)-instance-method" class="signature"><strong>#subscribe_injection_reset_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CInjectionResetComplete -> Void)</a>
+        <a href="#subscribe_injection_reset_complete(*extra_args,once=false,&callback:InjectionResetCompleteMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_injection_reset_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : InjectionResetCompleteMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to injection_reset_complete events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_injection_status(*extra_args,once=false,&callback:LibHermes::CInjectionStatus-%3EVoid)-instance-method" class="signature"><strong>#subscribe_injection_status</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CInjectionStatus -> Void)</a>
+        <a href="#subscribe_injection_status(*extra_args,once=false,&callback:InjectionStatusMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_injection_status</strong>(*extra_args, once = <span class="n">false</span>, &callback : InjectionStatusMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to injection_status events.</p></div>
         
@@ -873,7 +923,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -894,7 +944,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L18" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -915,17 +965,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_injection_complete(*extra_args,once=false,&amp;callback:LibHermes::CInjectionComplete-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_injection_complete(*extra_args,once=false,&amp;callback:InjectionCompleteMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_injection_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CInjectionComplete -> Void)
+        def <strong>subscribe_injection_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : InjectionCompleteMessage -> Void)
 
-        <a class="method-permalink" href="#subscribe_injection_complete(*extra_args,once=false,&callback:LibHermes::CInjectionComplete-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_injection_complete(*extra_args,once=false,&callback:InjectionCompleteMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -936,17 +986,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_injection_reset_complete(*extra_args,once=false,&amp;callback:LibHermes::CInjectionResetComplete-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_injection_reset_complete(*extra_args,once=false,&amp;callback:InjectionResetCompleteMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_injection_reset_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CInjectionResetComplete -> Void)
+        def <strong>subscribe_injection_reset_complete</strong>(*extra_args, once = <span class="n">false</span>, &callback : InjectionResetCompleteMessage -> Void)
 
-        <a class="method-permalink" href="#subscribe_injection_reset_complete(*extra_args,once=false,&callback:LibHermes::CInjectionResetComplete-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_injection_reset_complete(*extra_args,once=false,&callback:InjectionResetCompleteMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -957,17 +1007,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_injection_status(*extra_args,once=false,&amp;callback:LibHermes::CInjectionStatus-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_injection_status(*extra_args,once=false,&amp;callback:InjectionStatusMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_injection_status</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CInjectionStatus -> Void)
+        def <strong>subscribe_injection_status</strong>(*extra_args, once = <span class="n">false</span>, &callback : InjectionStatusMessage -> Void)
 
-        <a class="method-permalink" href="#subscribe_injection_status(*extra_args,once=false,&callback:LibHermes::CInjectionStatus-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_injection_status(*extra_args,once=false,&callback:InjectionStatusMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -978,7 +1028,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -999,7 +1049,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1020,7 +1070,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1041,7 +1091,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/injection.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/injection.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>

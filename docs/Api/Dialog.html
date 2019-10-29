@@ -51,6 +51,26 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Api/Flow" data-name="api::flow">
+      <a href="../Api/Flow.html">Flow</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentContinuation" data-name="api::flow::intentcontinuation">
+      <a href="../Api/Flow/IntentContinuation.html">IntentContinuation</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentNotRecognizedContinuation" data-name="api::flow::intentnotrecognizedcontinuation">
+      <a href="../Api/Flow/IntentNotRecognizedContinuation.html">IntentNotRecognizedContinuation</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Injection" data-name="api::injection">
       <a href="../Api/Injection.html">Injection</a>
       
@@ -376,6 +396,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage" data-name="mappings::injectionstatusmessage">
+      <a href="../Mappings/InjectionStatusMessage.html">InjectionStatusMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage/DataType" data-name="mappings::injectionstatusmessage::datatype">
+      <a href="../Mappings/InjectionStatusMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InstantTimeValue" data-name="mappings::instanttimevalue">
       <a href="../Mappings/InstantTimeValue.html">InstantTimeValue</a>
       
@@ -561,6 +596,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage" data-name="mappings::sitemessage">
+      <a href="../Mappings/SiteMessage.html">SiteMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage/DataType" data-name="mappings::sitemessage::datatype">
+      <a href="../Mappings/SiteMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/Slot" data-name="mappings::slot">
       <a href="../Mappings/Slot.html">Slot</a>
       
@@ -684,7 +734,7 @@
   
     <li class="other-type"><a href="../Api/Utils.html">Api::Utils</a></li>
   
-    <li class="other-type"><a href="../Bindings.html">Bindings</a></li>
+    <li class="other-type"><a href="../Mappings.html">Mappings</a></li>
   
   </ul>
 
@@ -700,7 +750,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L4" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L5" target="_blank">
         api/dialog.cr
       </a>
     
@@ -717,6 +767,20 @@
 
   <h2>Instance Method Summary</h2>
   <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#flow(intent_name:String,&block:Flow::IntentContinuation)-instance-method" class="signature"><strong>#flow</strong>(intent_name : String, &block : Flow::IntentContinuation)</a>
+        
+          <div class="summary"><p>Create a new dialog flow having a single intent as the entry point.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#flows(*intent_descriptors)-instance-method" class="signature"><strong>#flows</strong>(*intent_descriptors)</a>
+        
+          <div class="summary"><p>Create a new dialog flow having one or more intents as the entry point.</p></div>
+        
+      </li>
     
       <li class="entry-summary">
         <a href="#publish_configure(message)-instance-method" class="signature"><strong>#publish_configure</strong>(message)</a>
@@ -747,42 +811,42 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_intent(*extra_args,once=false,&callback:LibHermes::CIntentMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_intent</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CIntentMessage -> Void)</a>
+        <a href="#subscribe_intent(*extra_args,once=false,&callback:IntentMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_intent</strong>(*extra_args, once = <span class="n">false</span>, &callback : IntentMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to intent events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_intent_not_recognized(*extra_args,once=false,&callback:LibHermes::CIntentNotRecognizedMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_intent_not_recognized</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CIntentNotRecognizedMessage -> Void)</a>
+        <a href="#subscribe_intent_not_recognized(*extra_args,once=false,&callback:IntentNotRecognizedMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_intent_not_recognized</strong>(*extra_args, once = <span class="n">false</span>, &callback : IntentNotRecognizedMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to intent_not_recognized events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_intents(*extra_args,once=false,&callback:LibHermes::CIntentMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_intents</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CIntentMessage -> Void)</a>
+        <a href="#subscribe_intents(*extra_args,once=false,&callback:IntentMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_intents</strong>(*extra_args, once = <span class="n">false</span>, &callback : IntentMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to intents events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_session_ended(*extra_args,once=false,&callback:LibHermes::CSessionEnded-%3EVoid)-instance-method" class="signature"><strong>#subscribe_session_ended</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CSessionEnded -> Void)</a>
+        <a href="#subscribe_session_ended(*extra_args,once=false,&callback:SessionEndedMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_session_ended</strong>(*extra_args, once = <span class="n">false</span>, &callback : SessionEndedMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to session_ended events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_session_queued(*extra_args,once=false,&callback:LibHermes::CSessionQueued-%3EVoid)-instance-method" class="signature"><strong>#subscribe_session_queued</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CSessionQueued -> Void)</a>
+        <a href="#subscribe_session_queued(*extra_args,once=false,&callback:SessionQueuedMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_session_queued</strong>(*extra_args, once = <span class="n">false</span>, &callback : SessionQueuedMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to session_queued events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe_session_started(*extra_args,once=false,&callback:LibHermes::CSessionStarted-%3EVoid)-instance-method" class="signature"><strong>#subscribe_session_started</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CSessionStarted -> Void)</a>
+        <a href="#subscribe_session_started(*extra_args,once=false,&callback:SessionStartedMessage-%3EVoid)-instance-method" class="signature"><strong>#subscribe_session_started</strong>(*extra_args, once = <span class="n">false</span>, &callback : SessionStartedMessage -> Void)</a>
         
           <div class="summary"><p>Subscribe to session_started events.</p></div>
         
@@ -837,6 +901,26 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
   
     
 
@@ -906,6 +990,48 @@
 
   <h2>Instance Method Detail</h2>
   
+    <div class="entry-detail" id="flow(intent_name:String,&amp;block:Flow::IntentContinuation)-instance-method">
+      <div class="signature">
+        
+        def <strong>flow</strong>(intent_name : String, &block : <a href="../Api/Flow/IntentContinuation.html">Flow::IntentContinuation</a>)
+
+        <a class="method-permalink" href="#flow(intent_name:String,&block:Flow::IntentContinuation)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Create a new dialog flow having a single intent as the entry point.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="flows(*intent_descriptors)-instance-method">
+      <div class="signature">
+        
+        def <strong>flows</strong>(*intent_descriptors)
+
+        <a class="method-permalink" href="#flows(*intent_descriptors)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Create a new dialog flow having one or more intents as the entry point.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L48" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="publish_configure(message)-instance-method">
       <div class="signature">
         
@@ -922,7 +1048,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -943,7 +1069,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L18" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -964,7 +1090,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -985,17 +1111,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_intent(*extra_args,once=false,&amp;callback:LibHermes::CIntentMessage-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_intent(*extra_args,once=false,&amp;callback:IntentMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_intent</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CIntentMessage -> Void)
+        def <strong>subscribe_intent</strong>(*extra_args, once = <span class="n">false</span>, &callback : <a href="../Mappings/IntentMessage.html">IntentMessage</a> -> Void)
 
-        <a class="method-permalink" href="#subscribe_intent(*extra_args,once=false,&callback:LibHermes::CIntentMessage-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_intent(*extra_args,once=false,&callback:IntentMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1006,17 +1132,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_intent_not_recognized(*extra_args,once=false,&amp;callback:LibHermes::CIntentNotRecognizedMessage-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_intent_not_recognized(*extra_args,once=false,&amp;callback:IntentNotRecognizedMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_intent_not_recognized</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CIntentNotRecognizedMessage -> Void)
+        def <strong>subscribe_intent_not_recognized</strong>(*extra_args, once = <span class="n">false</span>, &callback : <a href="../Mappings/IntentNotRecognizedMessage.html">IntentNotRecognizedMessage</a> -> Void)
 
-        <a class="method-permalink" href="#subscribe_intent_not_recognized(*extra_args,once=false,&callback:LibHermes::CIntentNotRecognizedMessage-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_intent_not_recognized(*extra_args,once=false,&callback:IntentNotRecognizedMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1027,17 +1153,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_intents(*extra_args,once=false,&amp;callback:LibHermes::CIntentMessage-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_intents(*extra_args,once=false,&amp;callback:IntentMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_intents</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CIntentMessage -> Void)
+        def <strong>subscribe_intents</strong>(*extra_args, once = <span class="n">false</span>, &callback : <a href="../Mappings/IntentMessage.html">IntentMessage</a> -> Void)
 
-        <a class="method-permalink" href="#subscribe_intents(*extra_args,once=false,&callback:LibHermes::CIntentMessage-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_intents(*extra_args,once=false,&callback:IntentMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1048,17 +1174,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L39" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_session_ended(*extra_args,once=false,&amp;callback:LibHermes::CSessionEnded-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_session_ended(*extra_args,once=false,&amp;callback:SessionEndedMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_session_ended</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CSessionEnded -> Void)
+        def <strong>subscribe_session_ended</strong>(*extra_args, once = <span class="n">false</span>, &callback : <a href="../Mappings/SessionEndedMessage.html">SessionEndedMessage</a> -> Void)
 
-        <a class="method-permalink" href="#subscribe_session_ended(*extra_args,once=false,&callback:LibHermes::CSessionEnded-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_session_ended(*extra_args,once=false,&callback:SessionEndedMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1069,17 +1195,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L34" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_session_queued(*extra_args,once=false,&amp;callback:LibHermes::CSessionQueued-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_session_queued(*extra_args,once=false,&amp;callback:SessionQueuedMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_session_queued</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CSessionQueued -> Void)
+        def <strong>subscribe_session_queued</strong>(*extra_args, once = <span class="n">false</span>, &callback : <a href="../Mappings/SessionQueuedMessage.html">SessionQueuedMessage</a> -> Void)
 
-        <a class="method-permalink" href="#subscribe_session_queued(*extra_args,once=false,&callback:LibHermes::CSessionQueued-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_session_queued(*extra_args,once=false,&callback:SessionQueuedMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1090,17 +1216,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="subscribe_session_started(*extra_args,once=false,&amp;callback:LibHermes::CSessionStarted-&gt;Void)-instance-method">
+    <div class="entry-detail" id="subscribe_session_started(*extra_args,once=false,&amp;callback:SessionStartedMessage-&gt;Void)-instance-method">
       <div class="signature">
         
-        def <strong>subscribe_session_started</strong>(*extra_args, once = <span class="n">false</span>, &callback : LibHermes::CSessionStarted -> Void)
+        def <strong>subscribe_session_started</strong>(*extra_args, once = <span class="n">false</span>, &callback : <a href="../Mappings/SessionStartedMessage.html">SessionStartedMessage</a> -> Void)
 
-        <a class="method-permalink" href="#subscribe_session_started(*extra_args,once=false,&callback:LibHermes::CSessionStarted-%3EVoid)-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe_session_started(*extra_args,once=false,&callback:SessionStartedMessage-%3EVoid)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1111,7 +1237,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1132,7 +1258,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1153,7 +1279,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1174,7 +1300,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L39" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1195,7 +1321,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L34" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1216,7 +1342,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1237,7 +1363,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/api/dialog.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>

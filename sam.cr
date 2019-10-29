@@ -9,11 +9,31 @@ library_path = "#{FileUtils.pwd}/hermes-protocol/target/debug:/usr/local/opt/ope
 #   puts `crystal build src/main.cr -o bin/main`
 # end
 
-desc "Runs the test suite"
-task "test" do
-  ENV["LIBRARY_PATH"] ||= library_path
-  ENV["RUST_LOG"] ||= "debug"
-  puts `crystal spec --error-trace`
+namespace "test" do
+  desc "Run the roundtrip test suite"
+  task "roundtrip" do
+    ENV["LIBRARY_PATH"] ||= library_path
+    ENV["RUST_LOG"] ||= "debug"
+    puts `crystal spec spec/roundtrips_spec.cr --error-trace`
+  end
+
+  desc "Run the mqtt test suite"
+  task "mqtt" do
+    ENV["LIBRARY_PATH"] ||= library_path
+    ENV["RUST_LOG"] ||= "debug"
+    puts `crystal spec spec/mqtt_spec.cr --error-trace`
+  end
+
+  desc "Run the mqtt tls test suite"
+  task "mqtt_tls" do
+    ENV["LIBRARY_PATH"] ||= library_path
+    ENV["RUST_LOG"] ||= "debug"
+    puts `crystal spec spec/mqtt_tls_spec.cr --error-trace`
+  end
+end
+
+desc "Run all test suites"
+task "test", ["test:roundtrip", "test:mqtt", "test:mqtt_tls"] do
 end
 
 namespace "generate" do

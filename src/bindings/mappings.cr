@@ -31,14 +31,14 @@ module Mappings
   # - tls_disable_root_store: Boolean indicating if the root store should be disabled if TLS is enabled.
   class MqttOptions
     def initialize(
-      @broker_address = "",
-      @username = "",
-      @password = "",
-      @tls_hostname = "",
-      @tls_ca_file = [] of String,
-      @tls_ca_path = [] of String,
-      @tls_client_key = "",
-      @tls_client_cert = "",
+      @broker_address : String? = nil,
+      @username : String? = nil,
+      @password : String? = nil,
+      @tls_hostname : String?= nil,
+      @tls_ca_file : Array(String)? = nil,
+      @tls_ca_path : Array(String)? = nil,
+      @tls_client_key : String? = nil,
+      @tls_client_cert : String? = nil,
       @tls_disable_root_store : UInt8 = 0
     )
     end
@@ -46,16 +46,30 @@ module Mappings
     def to_unsafe
       c_message = LibHermes::CMqttOptions.new
 
-      c_message.broker_address = @broker_address unless @broker_address.empty?
-      c_message.username = @username unless @username.empty?
-      c_message.password = @password unless @password.empty?
-      c_message.tls_hostname = @tls_hostname unless @tls_hostname.empty?
-      tls_ca_file = StringArray.new(@tls_ca_file).to_unsafe
-      c_message.tls_ca_file = pointerof(tls_ca_file)
-      tls_ca_path = StringArray.new(@tls_ca_path).to_unsafe
-      c_message.tls_ca_path = pointerof(tls_ca_path)
-      c_message.tls_client_key = @tls_client_key unless @tls_client_key.empty?
-      c_message.tls_client_cert = @tls_client_cert unless @tls_client_cert.empty?
+      if broker_address = @broker_address
+        c_message.broker_address = broker_address
+      end
+      if username = @username
+        c_message.username = username
+      end
+      if password = @password
+        c_message.password = password
+      end
+      if tls_hostname = @tls_hostname
+        c_message.tls_hostname = tls_hostname
+      end
+      if tls_ca_file = @tls_ca_file
+        c_message.tls_ca_file = ptr_alloc(StringArray.new(tls_ca_file).to_unsafe)
+      end
+      if tls_ca_path = @tls_ca_path
+        c_message.tls_ca_path = ptr_alloc(StringArray.new(tls_ca_path).to_unsafe)
+      end
+      if tls_client_key = @tls_client_key
+        c_message.tls_client_key = tls_client_key
+      end
+      if tls_client_cert = @tls_client_cert
+        c_message.tls_client_cert = tls_client_cert
+      end
       c_message.tls_disable_root_store = @tls_disable_root_store
 
       c_message
@@ -126,7 +140,7 @@ module Mappings
   # A message used to continue a session.
   #
   # - session_id [`String`] : The id of the session this action applies to.
-  # - text [`String`] : The text to say to the user.
+  # - text [`String`] : Nullable, the text to say to the user.
   # - intent_filter [`StringArray`] : Nullable, an optional list of intent name to restrict the parsing of the user response to.
   # - custom_data [`String`] : Optional data that will be passed to the next session event.
   # - slot : [`String`] :
@@ -141,7 +155,7 @@ module Mappings
   # the dialogue manager will handle non recognized intents by itself).
   struct_map ContinueSessionMessage,
     session_id : String,
-    text : String,
+    text : String?,
     intent_filter : StringArray?,
     custom_data : String?,
     slot : String?,

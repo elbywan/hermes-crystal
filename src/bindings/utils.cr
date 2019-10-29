@@ -56,6 +56,12 @@ module Bindings::Utils
         {% for arg in args %}{{ arg.var }}: {{ arg.type }},{% end %}
       }
 
+      {% for arg in args %}
+      def {{ arg.var }}
+        @data["{{arg.var}}"]
+      end
+      {% end %}
+
       Utils.mapping(DataType) do
         @data = {
           {% for arg in args %}

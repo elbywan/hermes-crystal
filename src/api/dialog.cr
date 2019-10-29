@@ -1,9 +1,12 @@
 require "../bindings/mappings"
 require "./utils"
+require "./flow"
 
 class Api::Dialog
   include Mappings
   include Api::Utils
+
+  @active_sessions = Set(String).new
 
   protected def initialize(handler, @subscriptions : Hash(String, Array(Void*)))
     call! LibHermes.hermes_protocol_handler_dialogue_facade(handler, out @facade)
@@ -35,6 +38,34 @@ class Api::Dialog
   generate_subscriber(dialogue, "intent", IntentMessage, hermes_drop_intent_message)
   generate_subscriber(dialogue, "intents", IntentMessage, hermes_drop_intent_message)
   generate_subscriber(dialogue, "intent_not_recognized", IntentNotRecognizedMessage, hermes_drop_intent_not_recognized_message)
+
+  # Create a new dialog flow having a single intent as the entry point.
+  def flow(intent_name : String, &block : Flow::IntentContinuation)
+    flows({intent_name, block})
+  end
+
+  # Create a new dialog flow having one or more intents as the entry point.
+  def flows(*intent_descriptors)
+    intent_descriptors.each do |descriptor|
+      intent_name, action = descriptor
+      self.subscribe_intent(intent_name) do |intent_message|
+        session_id = intent_message.session_id
+        unless @active_sessions.includes? session_id
+          @active_sessions << session_id
+          cleanup_listener = uninitialized Pointer(Void)
+          cleanup_listener = self.subscribe_session_ended do |session_ended_message|
+            if session_ended_message.session_id == session_id
+              @active_sessions.delete session_id
+              unsubscribe_session_ended cleanup_listener
+            end
+          end
+          flow = Flow.new(self, session_id)
+          tts = action.call(intent_message, flow)
+          flow.end_round(tts)
+        end
+      end
+    end
+  end
 
   # Destroy the facade.
   protected def destroy

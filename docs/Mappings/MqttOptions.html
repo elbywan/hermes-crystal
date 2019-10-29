@@ -51,6 +51,26 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Api/Flow" data-name="api::flow">
+      <a href="../Api/Flow.html">Flow</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentContinuation" data-name="api::flow::intentcontinuation">
+      <a href="../Api/Flow/IntentContinuation.html">IntentContinuation</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentNotRecognizedContinuation" data-name="api::flow::intentnotrecognizedcontinuation">
+      <a href="../Api/Flow/IntentNotRecognizedContinuation.html">IntentNotRecognizedContinuation</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Injection" data-name="api::injection">
       <a href="../Api/Injection.html">Injection</a>
       
@@ -376,6 +396,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage" data-name="mappings::injectionstatusmessage">
+      <a href="../Mappings/InjectionStatusMessage.html">InjectionStatusMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage/DataType" data-name="mappings::injectionstatusmessage::datatype">
+      <a href="../Mappings/InjectionStatusMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InstantTimeValue" data-name="mappings::instanttimevalue">
       <a href="../Mappings/InstantTimeValue.html">InstantTimeValue</a>
       
@@ -561,6 +596,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage" data-name="mappings::sitemessage">
+      <a href="../Mappings/SiteMessage.html">SiteMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage/DataType" data-name="mappings::sitemessage::datatype">
+      <a href="../Mappings/SiteMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/Slot" data-name="mappings::slot">
       <a href="../Mappings/Slot.html">Slot</a>
       
@@ -697,7 +747,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L32" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L32" target="_blank">
         bindings/mappings.cr
       </a>
     
@@ -712,7 +762,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(broker_address=&quot;&quot;,username=&quot;&quot;,password=&quot;&quot;,tls_hostname=&quot;&quot;,tls_ca_file=[]ofString,tls_ca_path=[]ofString,tls_client_key=&quot;&quot;,tls_client_cert=&quot;&quot;,tls_disable_root_store:UInt8=0)-class-method" class="signature"><strong>.new</strong>(broker_address = <span class="s">&quot;&quot;</span>, username = <span class="s">&quot;&quot;</span>, password = <span class="s">&quot;&quot;</span>, tls_hostname = <span class="s">&quot;&quot;</span>, tls_ca_file = <span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>, tls_ca_path = <span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>, tls_client_key = <span class="s">&quot;&quot;</span>, tls_client_cert = <span class="s">&quot;&quot;</span>, tls_disable_root_store : UInt8 = <span class="n">0</span>)</a>
+        <a href="#new(broker_address:String?=nil,username:String?=nil,password:String?=nil,tls_hostname:String?=nil,tls_ca_file:Array(String)?=nil,tls_ca_path:Array(String)?=nil,tls_client_key:String?=nil,tls_client_cert:String?=nil,tls_disable_root_store:UInt8=0)-class-method" class="signature"><strong>.new</strong>(broker_address : String? = <span class="n">nil</span>, username : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, tls_hostname : String? = <span class="n">nil</span>, tls_ca_file : Array(String)? = <span class="n">nil</span>, tls_ca_path : Array(String)? = <span class="n">nil</span>, tls_client_key : String? = <span class="n">nil</span>, tls_client_cert : String? = <span class="n">nil</span>, tls_disable_root_store : UInt8 = <span class="n">0</span>)</a>
         
       </li>
     
@@ -763,18 +813,18 @@
 
   <h2>Constructor Detail</h2>
   
-    <div class="entry-detail" id="new(broker_address=&amp;quot;&amp;quot;,username=&amp;quot;&amp;quot;,password=&amp;quot;&amp;quot;,tls_hostname=&amp;quot;&amp;quot;,tls_ca_file=[]ofString,tls_ca_path=[]ofString,tls_client_key=&amp;quot;&amp;quot;,tls_client_cert=&amp;quot;&amp;quot;,tls_disable_root_store:UInt8=0)-class-method">
+    <div class="entry-detail" id="new(broker_address:String?=nil,username:String?=nil,password:String?=nil,tls_hostname:String?=nil,tls_ca_file:Array(String)?=nil,tls_ca_path:Array(String)?=nil,tls_client_key:String?=nil,tls_client_cert:String?=nil,tls_disable_root_store:UInt8=0)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(broker_address = <span class="s">&quot;&quot;</span>, username = <span class="s">&quot;&quot;</span>, password = <span class="s">&quot;&quot;</span>, tls_hostname = <span class="s">&quot;&quot;</span>, tls_ca_file = <span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>, tls_ca_path = <span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>, tls_client_key = <span class="s">&quot;&quot;</span>, tls_client_cert = <span class="s">&quot;&quot;</span>, tls_disable_root_store : UInt8 = <span class="n">0</span>)
+        def self.<strong>new</strong>(broker_address : String? = <span class="n">nil</span>, username : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, tls_hostname : String? = <span class="n">nil</span>, tls_ca_file : Array(String)? = <span class="n">nil</span>, tls_ca_path : Array(String)? = <span class="n">nil</span>, tls_client_key : String? = <span class="n">nil</span>, tls_client_cert : String? = <span class="n">nil</span>, tls_disable_root_store : UInt8 = <span class="n">0</span>)
 
-        <a class="method-permalink" href="#new(broker_address=&quot;&quot;,username=&quot;&quot;,password=&quot;&quot;,tls_hostname=&quot;&quot;,tls_ca_file=[]ofString,tls_ca_path=[]ofString,tls_client_key=&quot;&quot;,tls_client_cert=&quot;&quot;,tls_disable_root_store:UInt8=0)-class-method">#</a>
+        <a class="method-permalink" href="#new(broker_address:String?=nil,username:String?=nil,password:String?=nil,tls_hostname:String?=nil,tls_ca_file:Array(String)?=nil,tls_ca_path:Array(String)?=nil,tls_client_key:String?=nil,tls_client_cert:String?=nil,tls_disable_root_store:UInt8=0)-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -797,7 +847,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>

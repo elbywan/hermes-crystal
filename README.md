@@ -32,6 +32,18 @@ Hosted [here](https://elbywan.github.io/hermes-crystal).
 
 ## Development
 
+#### Prerequisite
+
+[`Rust`](https://www.rust-lang.org/learn/get-started) is needed to build the hermes library.
+
+#### Setup
+
+1. Clone the repo.
+2. Update the hermes-protocol submodule (`git submodule update`)
+3. Build the shared libraries. (`cd hermes-protocol; cargo build -p hermes-mqtt-ffi -p hermes-ffi-test; cd ..`)
+
+#### Tasks
+
 Development tasks are defined in the [`sam.cr`](https://github.com/imdrasil/sam.cr) file.
 
 Use `make sam help` to display the list of available tasks.

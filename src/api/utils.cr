@@ -4,9 +4,9 @@ module Api::Utils
     def subscribe_{{topic.id}}(*extra_args, once = false, &callback : {{message}} -> Void)
       unless @subscriptions.has_key? {{topic}}
         @subscriptions["#{{{topic}}}"] = [] of Void*
-        dispatcher =  ->(message: LibHermes::C{{message}}*, boxed_subscriptions : Void*) {
-          subscriptions = Box(Hash(String, Array(Void*))).unbox(boxed_subscriptions)
-          subscriptions[{{topic}}].each do |boxed_callback|
+        dispatcher = ->(message: LibHermes::C{{message}}*, boxed_subscriptions : Void*) {
+          subscriptions = Box(Hash(String, Array(Void*))).unbox(boxed_subscriptions)[{{topic}}].dup
+          subscriptions.each do |boxed_callback|
             Box({{message}} -> Void).unbox(boxed_callback).call({{message}}.new message.value)
           end
           LibHermes.{{drop}}(message)

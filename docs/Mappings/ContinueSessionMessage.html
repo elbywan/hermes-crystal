@@ -51,6 +51,26 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Api/Flow" data-name="api::flow">
+      <a href="../Api/Flow.html">Flow</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentContinuation" data-name="api::flow::intentcontinuation">
+      <a href="../Api/Flow/IntentContinuation.html">IntentContinuation</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Flow/IntentNotRecognizedContinuation" data-name="api::flow::intentnotrecognizedcontinuation">
+      <a href="../Api/Flow/IntentNotRecognizedContinuation.html">IntentNotRecognizedContinuation</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="github.com/elbywan/hermes-crystal/Api/Injection" data-name="api::injection">
       <a href="../Api/Injection.html">Injection</a>
       
@@ -376,6 +396,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage" data-name="mappings::injectionstatusmessage">
+      <a href="../Mappings/InjectionStatusMessage.html">InjectionStatusMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/InjectionStatusMessage/DataType" data-name="mappings::injectionstatusmessage::datatype">
+      <a href="../Mappings/InjectionStatusMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/InstantTimeValue" data-name="mappings::instanttimevalue">
       <a href="../Mappings/InstantTimeValue.html">InstantTimeValue</a>
       
@@ -561,6 +596,21 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage" data-name="mappings::sitemessage">
+      <a href="../Mappings/SiteMessage.html">SiteMessage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Mappings/SiteMessage/DataType" data-name="mappings::sitemessage::datatype">
+      <a href="../Mappings/SiteMessage/DataType.html">DataType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="github.com/elbywan/hermes-crystal/Mappings/Slot" data-name="mappings::slot">
       <a href="../Mappings/Slot.html">Slot</a>
       
@@ -679,10 +729,10 @@
 
   <p>A message used to continue a session.</p>
 
-<ul><li>session_id [<code>String</code>] : The id of the session this action applies to.</li><li>text [<code>String</code>] : The text to say to the user.</li><li>intent_filter [<code><a href="../Mappings/StringArray.html">StringArray</a></code>] : Nullable, an optional list of intent name to restrict the parsing of the user response to.</li><li>custom_data [<code>String</code>] : Optional data that will be passed to the next session event.</li><li>slot : [<code>String</code>] :
- Nullable,  An optional string, requires <code>intent_filter</code> to contain a single value. If set,
+<ul><li>session_id [<code>String</code>] : The id of the session this action applies to.</li><li>text [<code>String</code>] : Nullable, the text to say to the user.</li><li>intent_filter [<code><a href="../Mappings/StringArray.html">StringArray</a></code>] : Nullable, an optional list of intent name to restrict the parsing of the user response to.</li><li>custom_data [<code>String</code>] : Optional data that will be passed to the next session event.</li><li>slot : [<code>String</code>] :
+ Nullable,  An optional string, requires <code><a href="../Mappings/ContinueSessionMessage.html#intent_filter-instance-method">#intent_filter</a></code> to contain a single value. If set,
 the dialogue engine will not run the the intent classification on the user response and go
-straight to slot filling, assuming the intent is the one passed in the <code>intent_filter</code>, and
+straight to slot filling, assuming the intent is the one passed in the <code><a href="../Mappings/ContinueSessionMessage.html#intent_filter-instance-method">#intent_filter</a></code>, and
 searching the value of the given slot.</li><li>send_intent_not_recognized [<code>Bool</code>] :
 A boolean to indicate whether the dialogue manager should handle not recognized
 intents by itself or sent them as a <code>CIntentNotRecognizedMessage</code> for the client to handle.
@@ -705,7 +755,7 @@ the dialogue manager will handle non recognized intents by itself).</li></ul>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L142" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">
         bindings/mappings.cr
       </a>
     
@@ -746,12 +796,42 @@ the dialogue manager will handle non recognized intents by itself).</li></ul>
       </li>
     
       <li class="entry-summary">
+        <a href="#custom_data-instance-method" class="signature"><strong>#custom_data</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#data:DataType-instance-method" class="signature"><strong>#data</strong> : DataType</a>
         
       </li>
     
       <li class="entry-summary">
         <a href="#data=(data:DataType)-instance-method" class="signature"><strong>#data=</strong>(data : DataType)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#intent_filter-instance-method" class="signature"><strong>#intent_filter</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#send_intent_not_recognized-instance-method" class="signature"><strong>#send_intent_not_recognized</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#session_id-instance-method" class="signature"><strong>#session_id</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#slot-instance-method" class="signature"><strong>#slot</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#text-instance-method" class="signature"><strong>#text</strong></a>
         
       </li>
     
@@ -824,7 +904,7 @@ the dialogue manager will handle non recognized intents by itself).</li></ul>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L142" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -873,6 +953,22 @@ the dialogue manager will handle non recognized intents by itself).</li></ul>
       </div>
     </div>
   
+    <div class="entry-detail" id="custom_data-instance-method">
+      <div class="signature">
+        
+        def <strong>custom_data</strong>
+
+        <a class="method-permalink" href="#custom_data-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="data:DataType-instance-method">
       <div class="signature">
         
@@ -901,6 +997,86 @@ the dialogue manager will handle non recognized intents by itself).</li></ul>
       </div>
     </div>
   
+    <div class="entry-detail" id="intent_filter-instance-method">
+      <div class="signature">
+        
+        def <strong>intent_filter</strong>
+
+        <a class="method-permalink" href="#intent_filter-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="send_intent_not_recognized-instance-method">
+      <div class="signature">
+        
+        def <strong>send_intent_not_recognized</strong>
+
+        <a class="method-permalink" href="#send_intent_not_recognized-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="session_id-instance-method">
+      <div class="signature">
+        
+        def <strong>session_id</strong>
+
+        <a class="method-permalink" href="#session_id-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="slot-instance-method">
+      <div class="signature">
+        
+        def <strong>slot</strong>
+
+        <a class="method-permalink" href="#slot-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="text-instance-method">
+      <div class="signature">
+        
+        def <strong>text</strong>
+
+        <a class="method-permalink" href="#text-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="to_unsafe-instance-method">
       <div class="signature">
         
@@ -912,7 +1088,7 @@ the dialogue manager will handle non recognized intents by itself).</li></ul>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/fe18abf259c506cddb9953ab26c82ceca39bb8ed/src/bindings/mappings.cr#L142" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/bindings/mappings.cr#L156" target="_blank">View source</a>]
         
       </div>
     </div>
