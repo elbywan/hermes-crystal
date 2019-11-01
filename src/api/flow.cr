@@ -2,32 +2,34 @@ require "../bindings/mappings"
 require "./dialog"
 
 # The dialog flow class can be used to easily build complex dialog trees.
-struct Api::Flow
+class Api::Flow
   include Mappings
 
-  alias IntentContinuation = IntentMessage, Flow -> String?
-  alias IntentNotRecognizedContinuation = IntentNotRecognizedMessage, Flow -> String?
+  # A continuation called when an intent is detected.
+  alias IntentContinuation = IntentMessage, Flow -> String
+  # A continuation called when no intents were detected.
+  alias IntentNotRecognizedContinuation = IntentNotRecognizedMessage, Flow -> String
 
   @dialog : Dialog
   @session_id : String
   @continuations : Hash(String, IntentContinuation)
   @not_recognized : IntentNotRecognizedContinuation?
   @slot_filler : String?
-  @subscribers : {intents: Array(Pointer(Void)), not_recognized: Pointer(Void)?}
+  @subscribers : {intents: Hash(String, (Void* -> Void)), not_recognized: (Void* -> Void)?}
 
   protected def initialize(@dialog : Api::Dialog, @session_id : String)
     @continuations = Hash(String, IntentContinuation).new
     @not_recognized = nil
     @slot_filler = nil
     @subscribers = {
-      intents:        [] of Pointer(Void),
+      intents:        Hash(String, (Void* -> Void)).new,
       not_recognized: nil,
     }
   end
 
   private def cleanup
-    @subscribers["intents"].each do |subscriber|
-      @dialog.unsubscribe_intent(subscriber)
+    @subscribers["intents"].each do |intent_name, subscriber|
+      @dialog.unsubscribe_intent(subscriber, intent_name)
     end
     @subscribers["not_recognized"].try do |subscriber|
       @dialog.unsubscribe_intent_not_recognized(subscriber)
@@ -58,9 +60,10 @@ struct Api::Flow
         send_intent_not_recognized: !@not_recognized.nil?,
       }
       @continuations.each do |intent_name, action|
-        @subscribers["intents"] << @dialog.subscribe_intent(intent_name) do |msg|
+        subscriber = @dialog.subscribe_intent(intent_name) do |msg|
           continue_round msg, action if msg.session_id == @session_id
         end
+        @subscribers["intents"][intent_name] = subscriber
       end
       @not_recognized.try do |action|
         not_recognized_listener = @dialog.subscribe_intent_not_recognized do |msg|

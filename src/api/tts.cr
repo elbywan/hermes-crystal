@@ -5,7 +5,9 @@ class Api::Tts
   include Bindings
   include Api::Utils
 
-  protected def initialize(handler, @subscriptions : Hash(String, Array(Void*)))
+  @subscriber_sync = Mutex.new
+
+  protected def initialize(handler, @subscriptions : Hash(String, Array(Void* -> Void)))
     call! LibHermes.hermes_protocol_handler_tts_facade(handler, out @facade)
   end
 

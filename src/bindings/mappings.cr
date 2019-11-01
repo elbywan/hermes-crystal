@@ -34,7 +34,7 @@ module Mappings
       @broker_address : String? = nil,
       @username : String? = nil,
       @password : String? = nil,
-      @tls_hostname : String?= nil,
+      @tls_hostname : String? = nil,
       @tls_ca_file : Array(String)? = nil,
       @tls_ca_path : Array(String)? = nil,
       @tls_client_key : String? = nil,

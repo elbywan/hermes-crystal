@@ -8,6 +8,10 @@ macro round_trip(message_name, method_suffix, message_body)
   output.data.should eq(input.data)
 end
 
+Spec.before_suite {
+  puts "\n>> Round trips test suite.".colorize.mode(:bold)
+}
+
 describe Bindings do
   describe "should perform a round-trip on the following data structure:" do
     it "SessionQueuedMessage" do

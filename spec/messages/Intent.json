@@ -1,6 +1,6 @@
 {
     "sessionId": "677a2717-7ac8-44f8-9013-db2222f7923d",
-    "customData": "customThing",
+    "customData": null,
     "siteId": "default",
     "input": "moi du vert",
     "intent": {

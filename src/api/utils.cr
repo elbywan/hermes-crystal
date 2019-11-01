@@ -1,37 +1,49 @@
 module Api::Utils
-  macro generate_subscriber(facade, topic, message, drop)
+  macro generate_subscriber(facade, topic, message, drop, key_check = nil)
     # Subscribe to {{topic.id}} events.
     def subscribe_{{topic.id}}(*extra_args, once = false, &callback : {{message}} -> Void)
-      unless @subscriptions.has_key? {{topic}}
-        @subscriptions["#{{{topic}}}"] = [] of Void*
-        dispatcher = ->(message: LibHermes::C{{message}}*, boxed_subscriptions : Void*) {
-          subscriptions = Box(Hash(String, Array(Void*))).unbox(boxed_subscriptions)[{{topic}}].dup
-          subscriptions.each do |boxed_callback|
-            Box({{message}} -> Void).unbox(boxed_callback).call({{message}}.new message.value)
+      @subscriber_sync.synchronize do
+        %key = {{ topic }}
+        subscriber = uninitialized Void* -> Void
+        subscriber = ->(c_message: Void*) {
+          if Thread.current.event_base.nil?
+            pp Thread.current
+            raise "Subscriber is not running in a Crystal thread…"
           end
-          LibHermes.{{drop}}(message)
-        }
-        call! LibHermes.hermes_{{ facade }}_subscribe_{{topic.id}}(@facade, *extra_args, dispatcher)
-      end
-
-      if once
-        delete_callback = uninitialized -> Nil
-        boxed_callback = Box.box(->(message: {{message}}) {
+          message = {{message}}.new c_message.as(LibHermes::C{{message}}*).value
+          {% if key_check %}
+            unless {{ key_check }}
+              return
+            end
+          {% end %}
           callback.call(message)
-          delete_callback.call()
-        })
-        delete_callback = -> () { @subscriptions["#{{{topic}}}"].delete(boxed_callback) }
-      else
-        boxed_callback = Box.box(callback)
-      end
+          @subscriber_sync.synchronize do
+            @subscriptions[%key].delete(subscriber) if once
+          end
+        }
 
-      @subscriptions["#{{{topic}}}"] << boxed_callback
-      boxed_callback
+        unless @subscriptions.has_key? %key
+          @subscriptions[%key] = [] of Void* -> Void
+          dispatcher = ->(message: LibHermes::C{{message}}*, user_data : Void*) {
+            GC.disable
+            Box((Void*, String) -> Void).unbox(user_data).call(message.as(Void*), {{ topic }})
+            LibHermes.{{drop}}(message)
+            GC.enable
+          }
+          call! LibHermes.hermes_{{ facade }}_subscribe_{{topic.id}}(@facade, *extra_args, dispatcher)
+        end
+
+        @subscriptions[%key] << subscriber
+        subscriber
+      end
     end
 
     # Unsubscribe to {{topic.id}} events.
-    def unsubscribe_{{topic.id}}(callback_ref)
-      @subscriptions[{{topic}}].delete(callback_ref)
+    def unsubscribe_{{topic.id}}(callback_ref, *extra_args)
+      @subscriber_sync.synchronize do
+        %key = {{ topic }}
+        @subscriptions[%key].delete(callback_ref)
+      end
     end
   end
 end

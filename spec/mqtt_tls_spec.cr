@@ -8,7 +8,7 @@ hermes = nil
 client = nil
 
 Spec.before_suite {
-  puts "\n>> Setup…".colorize.mode(:bold)
+  puts "\n>> Mqtt tls test suite.".colorize.mode(:bold)
   mosquitto_port = 18886
   puts "> Launching tls mosquitto on port [#{mosquitto_port.to_s}]."
   mosquitto = Process.new(
@@ -30,7 +30,7 @@ Spec.after_suite {
   puts "> Cleanup done.".colorize(:green)
 }
 
-describe Hermes, focus: true do
+describe Hermes do
   it "should connect to a secured mosquitto broker." do
     Hermes.new(
       broker_address: "localhost:#{mosquitto_port}",

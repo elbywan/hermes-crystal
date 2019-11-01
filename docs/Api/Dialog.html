@@ -156,8 +156,18 @@
       
     </li>
   
-  <li class=" " data-id="github.com/elbywan/hermes-crystal/Hermes" data-name="hermes">
+  <li class="parent " data-id="github.com/elbywan/hermes-crystal/Hermes" data-name="hermes">
       <a href="../Hermes.html">Hermes</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/elbywan/hermes-crystal/Hermes/UserData" data-name="hermes::userdata">
+      <a href="../Hermes/UserData.html">UserData</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -750,7 +760,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L5" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L5" target="_blank">
         api/dialog.cr
       </a>
     
@@ -767,6 +777,13 @@
 
   <h2>Instance Method Summary</h2>
   <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#dispose_flows(registered_flows)-instance-method" class="signature"><strong>#dispose_flows</strong>(registered_flows)</a>
+        
+          <div class="summary"><p>Dispose previously defined flows.</p></div>
+        
+      </li>
     
       <li class="entry-summary">
         <a href="#flow(intent_name:String,&block:Flow::IntentContinuation)-instance-method" class="signature"><strong>#flow</strong>(intent_name : String, &block : Flow::IntentContinuation)</a>
@@ -853,42 +870,42 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe_intent(callback_ref)-instance-method" class="signature"><strong>#unsubscribe_intent</strong>(callback_ref)</a>
+        <a href="#unsubscribe_intent(callback_ref,*extra_args)-instance-method" class="signature"><strong>#unsubscribe_intent</strong>(callback_ref, *extra_args)</a>
         
           <div class="summary"><p>Unsubscribe to intent events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe_intent_not_recognized(callback_ref)-instance-method" class="signature"><strong>#unsubscribe_intent_not_recognized</strong>(callback_ref)</a>
+        <a href="#unsubscribe_intent_not_recognized(callback_ref,*extra_args)-instance-method" class="signature"><strong>#unsubscribe_intent_not_recognized</strong>(callback_ref, *extra_args)</a>
         
           <div class="summary"><p>Unsubscribe to intent_not_recognized events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe_intents(callback_ref)-instance-method" class="signature"><strong>#unsubscribe_intents</strong>(callback_ref)</a>
+        <a href="#unsubscribe_intents(callback_ref,*extra_args)-instance-method" class="signature"><strong>#unsubscribe_intents</strong>(callback_ref, *extra_args)</a>
         
           <div class="summary"><p>Unsubscribe to intents events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe_session_ended(callback_ref)-instance-method" class="signature"><strong>#unsubscribe_session_ended</strong>(callback_ref)</a>
+        <a href="#unsubscribe_session_ended(callback_ref,*extra_args)-instance-method" class="signature"><strong>#unsubscribe_session_ended</strong>(callback_ref, *extra_args)</a>
         
           <div class="summary"><p>Unsubscribe to session_ended events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe_session_queued(callback_ref)-instance-method" class="signature"><strong>#unsubscribe_session_queued</strong>(callback_ref)</a>
+        <a href="#unsubscribe_session_queued(callback_ref,*extra_args)-instance-method" class="signature"><strong>#unsubscribe_session_queued</strong>(callback_ref, *extra_args)</a>
         
           <div class="summary"><p>Unsubscribe to session_queued events.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe_session_started(callback_ref)-instance-method" class="signature"><strong>#unsubscribe_session_started</strong>(callback_ref)</a>
+        <a href="#unsubscribe_session_started(callback_ref,*extra_args)-instance-method" class="signature"><strong>#unsubscribe_session_started</strong>(callback_ref, *extra_args)</a>
         
           <div class="summary"><p>Unsubscribe to session_started events.</p></div>
         
@@ -990,6 +1007,27 @@
 
   <h2>Instance Method Detail</h2>
   
+    <div class="entry-detail" id="dispose_flows(registered_flows)-instance-method">
+      <div class="signature">
+        
+        def <strong>dispose_flows</strong>(registered_flows)
+
+        <a class="method-permalink" href="#dispose_flows(registered_flows)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Dispose previously defined flows.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L94" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="flow(intent_name:String,&amp;block:Flow::IntentContinuation)-instance-method">
       <div class="signature">
         
@@ -1006,7 +1044,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L65" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1027,7 +1065,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L48" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1048,7 +1086,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1069,7 +1107,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1090,7 +1128,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L41" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1111,7 +1149,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1132,7 +1170,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1153,7 +1191,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L62" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1174,7 +1212,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L39" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L61" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1195,7 +1233,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L52" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1216,7 +1254,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1237,17 +1275,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsubscribe_intent(callback_ref)-instance-method">
+    <div class="entry-detail" id="unsubscribe_intent(callback_ref,*extra_args)-instance-method">
       <div class="signature">
         
-        def <strong>unsubscribe_intent</strong>(callback_ref)
+        def <strong>unsubscribe_intent</strong>(callback_ref, *extra_args)
 
-        <a class="method-permalink" href="#unsubscribe_intent(callback_ref)-instance-method">#</a>
+        <a class="method-permalink" href="#unsubscribe_intent(callback_ref,*extra_args)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1258,17 +1296,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsubscribe_intent_not_recognized(callback_ref)-instance-method">
+    <div class="entry-detail" id="unsubscribe_intent_not_recognized(callback_ref,*extra_args)-instance-method">
       <div class="signature">
         
-        def <strong>unsubscribe_intent_not_recognized</strong>(callback_ref)
+        def <strong>unsubscribe_intent_not_recognized</strong>(callback_ref, *extra_args)
 
-        <a class="method-permalink" href="#unsubscribe_intent_not_recognized(callback_ref)-instance-method">#</a>
+        <a class="method-permalink" href="#unsubscribe_intent_not_recognized(callback_ref,*extra_args)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1279,17 +1317,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L62" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsubscribe_intents(callback_ref)-instance-method">
+    <div class="entry-detail" id="unsubscribe_intents(callback_ref,*extra_args)-instance-method">
       <div class="signature">
         
-        def <strong>unsubscribe_intents</strong>(callback_ref)
+        def <strong>unsubscribe_intents</strong>(callback_ref, *extra_args)
 
-        <a class="method-permalink" href="#unsubscribe_intents(callback_ref)-instance-method">#</a>
+        <a class="method-permalink" href="#unsubscribe_intents(callback_ref,*extra_args)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1300,17 +1338,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L39" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L61" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsubscribe_session_ended(callback_ref)-instance-method">
+    <div class="entry-detail" id="unsubscribe_session_ended(callback_ref,*extra_args)-instance-method">
       <div class="signature">
         
-        def <strong>unsubscribe_session_ended</strong>(callback_ref)
+        def <strong>unsubscribe_session_ended</strong>(callback_ref, *extra_args)
 
-        <a class="method-permalink" href="#unsubscribe_session_ended(callback_ref)-instance-method">#</a>
+        <a class="method-permalink" href="#unsubscribe_session_ended(callback_ref,*extra_args)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1321,17 +1359,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L52" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsubscribe_session_queued(callback_ref)-instance-method">
+    <div class="entry-detail" id="unsubscribe_session_queued(callback_ref,*extra_args)-instance-method">
       <div class="signature">
         
-        def <strong>unsubscribe_session_queued</strong>(callback_ref)
+        def <strong>unsubscribe_session_queued</strong>(callback_ref, *extra_args)
 
-        <a class="method-permalink" href="#unsubscribe_session_queued(callback_ref)-instance-method">#</a>
+        <a class="method-permalink" href="#unsubscribe_session_queued(callback_ref,*extra_args)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1342,17 +1380,17 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsubscribe_session_started(callback_ref)-instance-method">
+    <div class="entry-detail" id="unsubscribe_session_started(callback_ref,*extra_args)-instance-method">
       <div class="signature">
         
-        def <strong>unsubscribe_session_started</strong>(callback_ref)
+        def <strong>unsubscribe_session_started</strong>(callback_ref, *extra_args)
 
-        <a class="method-permalink" href="#unsubscribe_session_started(callback_ref)-instance-method">#</a>
+        <a class="method-permalink" href="#unsubscribe_session_started(callback_ref,*extra_args)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1363,7 +1401,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/0d7d79868f6c59a1342614bc42fb83dbedefcec8/src/api/dialog.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/fd09b8a7eb336e5f5d4ff158ee9271bf53172be8/src/api/dialog.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>

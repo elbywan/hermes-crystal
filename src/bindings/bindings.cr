@@ -341,11 +341,17 @@ module Bindings
     fun hermes_dialogue_publish_continue_session(facade : CDialogueFacade*, message : CContinueSessionMessage*) : SnipsResult
     fun hermes_dialogue_publish_end_session(facade : CDialogueFacade*, message : CEndSessionMessage*) : SnipsResult
     fun hermes_dialogue_publish_start_session(facade : CDialogueFacade*, message : CStartSessionMessage*) : SnipsResult
+    @[Raises]
     fun hermes_dialogue_subscribe_intent(facade : CDialogueFacade*, intent_name : LibC::Char*, handler : (CIntentMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_dialogue_subscribe_intent_not_recognized(facade : CDialogueFacade*, handler : (CIntentNotRecognizedMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_dialogue_subscribe_intents(facade : CDialogueFacade*, handler : (CIntentMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_dialogue_subscribe_session_ended(facade : CDialogueFacade*, handler : (CSessionEndedMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_dialogue_subscribe_session_queued(facade : CDialogueFacade*, handler : (CSessionQueuedMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_dialogue_subscribe_session_started(facade : CDialogueFacade*, handler : (CSessionStartedMessage*, Void* -> Void)) : SnipsResult
     fun hermes_drop_dialogue_facade(cstruct : CDialogueFacade*) : SnipsResult
     fun hermes_drop_error_message(cstruct : CErrorMessage*) : SnipsResult
@@ -366,8 +372,11 @@ module Bindings
     fun hermes_injection_publish_injection_request(facade : CInjectionFacade*, message : CInjectionRequestMessage*) : SnipsResult
     fun hermes_injection_publish_injection_reset_request(facade : CInjectionFacade*, message : CInjectionResetRequestMessage*) : SnipsResult
     fun hermes_injection_publish_injection_status_request(facade : CInjectionFacade*) : SnipsResult
+    @[Raises]
     fun hermes_injection_subscribe_injection_complete(facade : CInjectionFacade*, handler : (CInjectionCompleteMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_injection_subscribe_injection_reset_complete(facade : CInjectionFacade*, handler : (CInjectionResetCompleteMessage*, Void* -> Void)) : SnipsResult
+    @[Raises]
     fun hermes_injection_subscribe_injection_status(facade : CInjectionFacade*, handler : (CInjectionStatusMessage*, Void* -> Void)) : SnipsResult
     fun hermes_protocol_handler_dialogue_facade(handler : CProtocolHandler*, facade : CDialogueFacade**) : SnipsResult
     fun hermes_protocol_handler_injection_facade(handler : CProtocolHandler*, facade : CInjectionFacade**) : SnipsResult

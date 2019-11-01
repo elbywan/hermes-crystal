@@ -6,9 +6,24 @@ class Api::Dialog
   include Mappings
   include Api::Utils
 
-  @active_sessions = Set(String).new
+  @subscriber_sync = Mutex.new
 
-  protected def initialize(handler, @subscriptions : Hash(String, Array(Void*)))
+  @active_sessions = Set(String).new
+  @active_sessions_lock = Mutex.new
+
+  private def add_active_session(session_id)
+    @active_sessions_lock.synchronize do
+      @active_sessions << session_id
+    end
+  end
+
+  private def delete_active_session(session_id)
+    @active_sessions_lock.synchronize do
+      @active_sessions.delete session_id
+    end
+  end
+
+  protected def initialize(handler, @subscriptions : Hash(String, Array(Void* -> Void)))
     call! LibHermes.hermes_protocol_handler_dialogue_facade(handler, out @facade)
   end
 
@@ -35,7 +50,14 @@ class Api::Dialog
   generate_subscriber(dialogue, "session_started", SessionStartedMessage, hermes_drop_session_started_message)
   generate_subscriber(dialogue, "session_queued", SessionQueuedMessage, hermes_drop_session_queued_message)
   generate_subscriber(dialogue, "session_ended", SessionEndedMessage, hermes_drop_session_ended_message)
-  generate_subscriber(dialogue, "intent", IntentMessage, hermes_drop_intent_message)
+  generate_subscriber(
+    dialogue,
+    "intent",
+    IntentMessage, hermes_drop_intent_message,
+    key_check: (
+      message.intent.intent_name == extra_args[0]
+    )
+  )
   generate_subscriber(dialogue, "intents", IntentMessage, hermes_drop_intent_message)
   generate_subscriber(dialogue, "intent_not_recognized", IntentNotRecognizedMessage, hermes_drop_intent_not_recognized_message)
 
@@ -46,16 +68,16 @@ class Api::Dialog
 
   # Create a new dialog flow having one or more intents as the entry point.
   def flows(*intent_descriptors)
-    intent_descriptors.each do |descriptor|
+    intent_descriptors.map do |descriptor|
       intent_name, action = descriptor
-      self.subscribe_intent(intent_name) do |intent_message|
+      subscriber = subscribe_intent(intent_name) do |intent_message|
         session_id = intent_message.session_id
         unless @active_sessions.includes? session_id
-          @active_sessions << session_id
-          cleanup_listener = uninitialized Pointer(Void)
-          cleanup_listener = self.subscribe_session_ended do |session_ended_message|
+          add_active_session session_id
+          cleanup_listener = uninitialized Void* -> Void
+          cleanup_listener = subscribe_session_ended do |session_ended_message|
             if session_ended_message.session_id == session_id
-              @active_sessions.delete session_id
+              delete_active_session session_id
               unsubscribe_session_ended cleanup_listener
             end
           end
@@ -64,7 +86,16 @@ class Api::Dialog
           flow.end_round(tts)
         end
       end
+      {intent_name, subscriber}
     end
+  end
+
+  # Dispose previously defined flows.
+  def dispose_flows(registered_flows)
+    registered_flows.each { |flow|
+      intent_name, subscriber = flow
+      unsubscribe_intent(subscriber, intent_name)
+    }
   end
 
   # Destroy the facade.

@@ -9,12 +9,12 @@ hermes = nil
 client = nil
 
 Spec.before_suite {
-  puts "\n>> Setup…".colorize.mode(:bold)
+  puts "\n>> Mqtt test suite.".colorize.mode(:bold)
   mosquitto_port = find_open_port
   puts "> Launching mosquitto on port [#{mosquitto_port.to_s}]."
   mosquitto = Process.new(
     "mosquitto",
-    ["-p", mosquitto_port.to_s, "-v"],
+    ["-p", mosquitto_port.to_s], # add -v for verbose output
     # output: Process::Redirect::Inherit,
     # error: Process::Redirect::Inherit,
     output: Process::Redirect::Close,
@@ -55,15 +55,15 @@ Spec.after_each {
   client.try &.close
 }
 
-macro publish_test(name, topic, facade, message, expected)
-  it "a message of type: {{name}}." do
+macro publish_test(name, topic, facade, message, expected, focus = false)
+  it "a message of type: {{name}}."{% if focus %}, focus: true{% end %} do
     %message = {{ message }}
     %expected = {{ expected }}
 
     channel = Channel(String?).new
     spawn {
       begin
-        _, msg = client.try(&.receive) || {nil, nil}
+        _, msg = client.try(&.receive) || { nil, nil }
         channel.send msg
       rescue ex
       end
@@ -75,7 +75,7 @@ macro publish_test(name, topic, facade, message, expected)
       rescue ex
       end
     }
-    client.try &.connect.subscribe({{ topic }})
+    client.try &.subscribe({{ topic }})
     hermes.try &.{{ facade }}.publish_{{ name }}({% if message %}(%message){% end %})
     stringified_msg = channel.receive
     stringified_msg.try &.should eq(%expected)
@@ -83,8 +83,8 @@ macro publish_test(name, topic, facade, message, expected)
   end
 end
 
-macro subscribe_test(name, topic, facade, class_name, subscription = nil, extra = nil)
-  it "an event of type: {{ name }}." do
+macro subscribe_test(name, topic, facade, class_name, subscription = nil, extra = nil, focus = false)
+  it "an event of type: {{ name }}."{% if focus %}, focus: true{% end %} do
     json_msg = File.read "./spec/messages/{{name.id.camelcase}}.json"
 
     channel = Channel({{class_name}}?).new
@@ -96,7 +96,7 @@ macro subscribe_test(name, topic, facade, class_name, subscription = nil, extra 
 
     hermes.try &.{{ facade }}.subscribe_{% if subscription %}{{ subscription }}{% else %}{{ name }}{% end %}({% if extra %}*{{extra}}, {% end %}once: true) do |msg|
       proxy.send msg
-      sleep 0
+      Fiber.yield
     end
 
     spawn {
@@ -160,10 +160,10 @@ describe Hermes do
           text:                       "text",
           intent_filter:              ["intentA", "intentB"],
           custom_data:                nil,
-          slot:                       nil,
+          slot:                       "slot",
           send_intent_not_recognized: true,
         },
-        expected: "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"text\",\"intentFilter\":[\"intentA\",\"intentB\"],\"customData\":null,\"sendIntentNotRecognized\":true,\"slot\":null}",
+        expected: "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"text\",\"intentFilter\":[\"intentA\",\"intentB\"],\"customData\":null,\"sendIntentNotRecognized\":true,\"slot\":\"slot\"}",
       )
 
       publish_test(
@@ -323,6 +323,146 @@ describe Hermes do
         facade: injection,
         class_name: InjectionStatusMessage
       )
+    end
+  end
+
+  robustness_iterations = 10
+  describe "should, using the Flow api," do
+    it "should perform one round of dialog flow at least #{robustness_iterations} times" do
+      channel = Channel(String?).new
+
+      intent_json = File.read "./spec/messages/Intent.json"
+      session_ended_json = File.read "./spec/messages/SessionEnded.json"
+      end_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"\"}"
+
+      flow_reference = hermes.try &.dialog.flow "jelb:lightsColor" do |msg|
+        msg.should eq Messages.intent
+        ""
+      end
+
+      spawn {
+        counter = 0
+        client.try { |client|
+          client.subscribe "hermes/dialogueManager/sessionEnded"
+          client.subscribe "hermes/dialogueManager/endSession"
+        }
+        loop do
+          begin
+            topic, msg = client.try(&.receive) || {nil, nil}
+            case topic
+            when "hermes/dialogueManager/endSession"
+              msg.should eq end_session_json
+              client.try &.publish "hermes/dialogueManager/sessionEnded", session_ended_json
+            when "hermes/dialogueManager/sessionEnded"
+              counter += 1
+              if counter >= robustness_iterations
+                channel.send nil
+                break
+              else
+                client.try &.publish("hermes/intent/jelb:lightsColor", intent_json)
+              end
+            else
+              raise "Invalid topic received: #{topic}"
+              break
+            end
+          rescue ex
+            channel.send ex.to_s unless channel.closed?
+            break
+          end
+        end
+      }
+
+      spawn {
+        begin
+          sleep 10
+          channel.send "Timeout…"
+        rescue
+        end
+      }
+
+      Fiber.yield
+
+      client.try &.publish("hermes/intent/jelb:lightsColor", intent_json)
+
+      result = channel.receive
+      channel.close
+      flow_reference.try { |flow| hermes.try &.dialog.dispose_flows(flow) }
+
+      if !result.nil?
+        raise result
+      end
+    end
+
+    it "should perform at least #{robustness_iterations} rounds of dialog flow" do
+      channel = Channel(String?).new
+
+      intent_json = File.read "./spec/messages/Intent.json"
+      intent_message = Messages.intent
+      session_ended_json = File.read "./spec/messages/SessionEnded.json"
+      continue_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"continue\",\"intentFilter\":[\"jelb:lightsColor\"],\"customData\":null,\"sendIntentNotRecognized\":false,\"slot\":\"slot\"}"
+      end_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"bye\"}"
+
+      # pp "Outside : #{Thread.current} #{Fiber.current}"
+      # pp Thread.current
+      counter = 0
+      loop = uninitialized Api::Flow::IntentContinuation
+      loop = ->(msg : IntentMessage, flow : Api::Flow) {
+        # pp "Inside : #{Thread.current} #{Fiber.current}" if counter == 0
+        # pp Thread.current if counter == 0
+        msg.should eq intent_message
+        counter += 1
+        if counter >= robustness_iterations
+          "bye"
+        else
+          flow.continue "jelb:lightsColor", slot_filler: "slot", &loop
+          "continue"
+        end
+      }
+      flow_reference = hermes.try &.dialog.flow "jelb:lightsColor", &loop
+
+      spawn {
+        client.try { |client|
+          client.subscribe "hermes/dialogueManager/continueSession"
+          client.subscribe "hermes/dialogueManager/endSession"
+        }
+        loop do
+          begin
+            topic, msg = client.try(&.receive) || {nil, nil}
+            case topic
+            when "hermes/dialogueManager/continueSession"
+              msg.should eq continue_session_json
+              client.try &.publish "hermes/intent/jelb:lightsColor", intent_json
+            when "hermes/dialogueManager/endSession"
+              msg.should eq end_session_json
+              counter.should eq robustness_iterations
+              client.try &.publish "hermes/dialogueManager/sessionEnded", session_ended_json
+              channel.send nil
+              break
+            end
+          rescue ex
+            channel.send ex.to_s unless channel.closed?
+            break
+          end
+        end
+      }
+
+      spawn {
+        begin
+          sleep 10
+          channel.send "Timeout…"
+        rescue
+        end
+      }
+
+      client.try &.publish("hermes/intent/jelb:lightsColor", intent_json)
+
+      result = channel.receive
+      channel.close
+      flow_reference.try { |flow| hermes.try &.dialog.dispose_flows(flow) }
+
+      if !result.nil?
+        raise result
+      end
     end
   end
 end

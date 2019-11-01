@@ -5,7 +5,9 @@ class Api::Injection
   include Bindings
   include Api::Utils
 
-  protected def initialize(handler, @subscriptions : Hash(String, Array(Void*)))
+  @subscriber_sync = Mutex.new
+
+  protected def initialize(handler, @subscriptions : Hash(String, Array(Void* -> Void)))
     call! LibHermes.hermes_protocol_handler_injection_facade(handler, out @facade)
   end
 

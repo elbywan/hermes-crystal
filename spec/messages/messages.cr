@@ -38,7 +38,7 @@ module Messages
 
   class_getter intent = IntentMessage.new ({
     session_id:  "677a2717-7ac8-44f8-9013-db2222f7923d",
-    custom_data: "customThing",
+    custom_data: nil,
     site_id:     "default",
     input:       "moi du vert",
     intent:      {
