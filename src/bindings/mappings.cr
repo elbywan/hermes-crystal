@@ -293,6 +293,14 @@ module Mappings
                           AmountOfMoneyValue |
                           DurationValue
 
+    def value
+      @data["value"]
+    end
+
+    def value_type
+      @data["value_type"]
+    end
+
     Utils.mapping(DataType) do
       value = data["value"]
       value_type = data["value_type"]

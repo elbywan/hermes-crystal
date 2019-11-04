@@ -1,6 +1,6 @@
 require "socket"
 require "spec"
-require "../src/main"
+require "../src/hermes-crystal"
 
 include Bindings
 include Mappings

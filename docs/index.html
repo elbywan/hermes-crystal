@@ -747,6 +747,135 @@
 
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;hermes-crystal&quot;</span></code></pre>
 
+<h3>Minimal use case</h3>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;hermes-crystal&quot;</span>
+
+<span class="c"># Instantiate a Hermes object connecting to the default MQTT address.</span>
+hermes <span class="o">=</span> <span class="t">Hermes</span>.<span class="k">new</span> broker_address: <span class="s">&quot;localhost:1883&quot;</span>
+
+hermes.dialog.flow <span class="s">&quot;myIntent&quot;</span> <span class="k">do</span> <span class="o">|</span>msg, flow<span class="o">|</span>
+  <span class="c"># Log the message</span>
+  pp msg
+  <span class="c"># End the session and speak</span>
+  <span class="s">&quot;Received message for intent </span><span class="i">#{</span>msg.intent.intent_name<span class="i">}</span><span class="s">&quot;</span>
+<span class="k">end</span></code></pre>
+
+<h3>Expanded use case</h3>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;hermes-crystal&quot;</span>
+
+hermes <span class="o">=</span> <span class="t">Hermes</span>.<span class="k">new</span> broker_address: <span class="s">&quot;localhost:1883&quot;</span>
+<span class="c"># NB: dialog is only one of the available API facades.</span>
+dialog <span class="o">=</span> hermes.dialog
+
+<span class="c">#### High level &quot;flow&quot; API.</span>
+
+<span class="c"># Using the high level API is strongly recommended for building complex dialog flows.</span>
+
+<span class="c"># The goal is to register the following dialog paths:</span>
+<span class="c"># A</span>
+<span class="c"># ├── B</span>
+<span class="c"># │   └─ D</span>
+<span class="c"># └── C</span>
+<span class="c"># In plain words, intent &#39;A&#39; starts the flow, then restrain the next intents to &#39;B&#39; or &#39;C&#39;.</span>
+<span class="c"># If &#39;B&#39; is the next intent detected, then next intent must be &#39;D&#39; (and end the flow after &#39;D&#39;).</span>
+<span class="c"># If it was &#39;C&#39;, end the flow.</span>
+
+dialog.flow <span class="s">&quot;A&quot;</span> <span class="k">do</span> <span class="o">|</span>UNDERSCORE, flow<span class="o">|</span>
+  puts <span class="s">&quot;Intent A received. Session started.&quot;</span>
+
+  <span class="c"># At each step of the dialog flow, you have the choice of</span>
+  <span class="c"># registering the next intents, or end the flow by not</span>
+  <span class="c"># registering any continuations.</span>
+
+  <span class="c"># We then subscribe to both intent B or C so that the dialog</span>
+  <span class="c"># flow will continue with either one or the other next.</span>
+
+  <span class="c"># Mark intent &#39;B&#39; as one of the next dialog intents. (A -&gt; B)</span>
+  flow.continue <span class="s">&quot;B&quot;</span> <span class="k">do</span> <span class="o">|</span>UNDERSCORE, flow<span class="o">|</span>
+    puts <span class="s">&quot;Intent B received. Session continued.&quot;</span>
+
+    <span class="c"># Mark intent &#39;D&#39;. (A -&gt; B -&gt; D)</span>
+    flow.continue <span class="s">&quot;D&quot;</span> <span class="k">do</span> <span class="o">|</span>UNDERSCORE, flow<span class="o">|</span>
+        puts <span class="s">&quot;Intent D received. Session is ended.&quot;</span>
+        <span class="s">&quot;Finished the session with intent D.&quot;</span>
+    <span class="k">end</span>
+
+    <span class="c"># Make the TTS say that.</span>
+    <span class="s">&quot;Continue with D.&quot;</span>
+  <span class="k">end</span>
+
+  <span class="c"># Mark intent &#39;C&#39; as one of the next dialog intents. (A -&gt; C)</span>
+  flow.continue <span class="s">&quot;C&quot;</span> <span class="k">do</span> <span class="o">|</span>msg, flow<span class="o">|</span>
+      slot_value <span class="o">=</span> msg.slots.try <span class="o">&amp;</span>.[<span class="n">0</span>].value.value
+      puts <span class="s">&quot;Intent C received. Session is ended.&quot;</span>
+      <span class="s">&quot;Finished the session with intent C having value </span><span class="i">#{</span>slot_value<span class="i">}</span><span class="s"> .&quot;</span>
+  <span class="k">end</span>
+
+  <span class="c"># A flow function must return a string that is going to be spoken by the TTS.</span>
+  <span class="s">&quot;Continue with B or C.&quot;</span>
+<span class="k">end</span>
+
+<span class="c">#### Low level subscriber / publisher API.</span>
+
+<span class="c"># Every API facade can publish and receive data based on a list of events.</span>
+
+<span class="c"># For the purpose of this example, we will only use the dialog facade, and the</span>
+<span class="c"># events related to a dialog session.</span>
+
+<span class="c"># Note that more events are available for each facade.</span>
+
+<span class="c"># You can subscribe to an event triggered when the intent &#39;some_intent&#39; is detected like this:</span>
+dialog.subscribe_intent <span class="s">&quot;some_intent&quot;</span> <span class="k">do</span> <span class="o">|</span>message<span class="o">|</span>
+  <span class="c"># The &#39;message&#39; argument contain all the data you need to perform an action based on what the user said.</span>
+
+  <span class="c"># For instance, you can grab a slot and its value like this.</span>
+  my_slot <span class="o">=</span> message.slots.try <span class="o">&amp;</span>.find { <span class="o">|</span>slot<span class="o">|</span> slot.slot_name <span class="o">==</span> <span class="s">&quot;some_slot&quot;</span> }
+  slot_value <span class="o">=</span> my_slot.try <span class="o">&amp;</span>.value.value
+  puts <span class="s">&quot;Slot value: </span><span class="i">#{</span>slot_value<span class="i">}</span><span class="s">&quot;</span>
+  <span class="c"># And here is how to grab the intent name.</span>
+  puts <span class="s">&quot;Received intent: </span><span class="i">#{</span>message.intent.intent_name<span class="i">}</span><span class="s">&quot;</span>
+
+  session_must_be_continued <span class="o">=</span> <span class="n">true</span>
+  <span class="c"># Then, you can either (but not both!):</span>
+  <span class="k">if</span> session_must_be_continued
+    <span class="c"># Continue the current dialogue session.</span>
+    dialog.publish_continue_session({
+      <span class="c"># Session id is the same as the current session.</span>
+      session_id: message.session_id,
+      <span class="c"># This is what is going to be spoken between this and the next session round.</span>
+      text: <span class="s">&quot;The session lives on…&quot;</span>,
+      <span class="c"># A list of possible intent continuations for the next round.</span>
+      intent_filter: [<span class="s">&quot;next_intent&quot;</span>],
+      <span class="c"># Unused by the crystal wrapper.</span>
+      custom_data: <span class="n">nil</span>,
+      <span class="c"># An optional slot filler argument. Unneeded for this example.</span>
+      slot: <span class="n">nil</span>,
+      <span class="c"># If true, then a custom behaviour can be determined if no intents are recognized for the next round of dialogue.</span>
+      send_intent_not_recognized: <span class="n">false</span>
+    })
+  <span class="k">else</span>
+    <span class="c"># End the dialogue session.</span>
+    dialog.publish_end_session({
+      session_id: message.session_id,
+      text: <span class="s">&quot;The session has ended.&quot;</span>
+    })
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c"># You can also unsubscribe to a registered event.</span>
+handler <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Void</span><span class="o">*</span> -> <span class="t">Void</span>
+handler <span class="o">=</span> dialog.subscribe_intents {
+    <span class="c"># In this case, unsubscribe the first time an intent has been detected.</span>
+    dialog.unsubscribe_intents handler
+    <span class="c"># ...</span>
+}
+<span class="c"># Or process a subscription only once:</span>
+dialog.subscribe_intents once: <span class="n">true</span> {
+  <span class="c"># ...</span>
+}</code></pre>
+
 <h2>Documentation</h2>
 
 <p>Hosted <a href="https://elbywan.github.io/hermes-crystal" target="_blank">here</a>.</p>
