@@ -4,6 +4,19 @@ require "./injection"
 require "./feedback"
 require "./tts"
 
+# Unfortunately needed to enqueue the subscriber fiber in the main thread scheduler.
+# :nodoc:
+class Crystal::Scheduler
+  def enqueue(fiber : Fiber) : Nil
+    previous_def
+  end
+end
+
+# Used to resume the main event loop when a subscriber kick in.
+Signal::USR1.trap do
+  Fiber.yield
+end
+
 # Hermes-crystal is an high level API that allows you to
 # subscribe and send Snips messages using the Hermes protocol.
 class Hermes
@@ -13,14 +26,14 @@ class Hermes
 
   # Internal
 
-  alias UserData = Void*, String -> Nil
+  alias UserData = Void*, String, -> Void -> Nil
 
   @handler : LibHermes::CProtocolHandler*?
   @subscriptions : Hash(String, Array(Void* -> Void))
-  @dispatcher_channel = Channel({Void*, String}?).new
-  @sync_channel = Channel(Nil).new
   @user_data : UserData
   @boxed_user_data : Pointer(Void)
+  @active_fibers : Array(Fiber) = [] of Fiber
+  @parent_thread : Thread
 
   # Lifecycle
 
@@ -29,58 +42,32 @@ class Hermes
     mqttOptions = MqttOptions.new(**options).to_unsafe
     @subscriptions = {} of String => Array(Void* -> Void)
 
-    spawn same_thread: true do
-      loop do
-        begin
-          # puts "6. before channel receive"
-          # STDOUT.flush
-          payload = @dispatcher_channel.receive
-          if Thread.current.event_base.nil?
-            pp Thread.current
-            raise "Subscriber is not running in a Crystal thread…"
-          end
-          # pp Thread.current
-          # STDOUT.flush
-          # puts "3. after channel receive"
-          # STDOUT.flush
-          if payload
-            msg_ptr, topic = payload # .dup
-            # puts "4. before subscription called"
-            # STDOUT.flush
-            subscriptions = @subscriptions[topic].dup
-            subscriptions.each &.call(msg_ptr)
-            # puts "5. after subscription called"
-            # STDOUT.flush
-          else
-            break
-          end
-        rescue ex
-          STDERR.puts "Error while dispatching the hermes message to registered subscribers."
-          STDERR.puts ex
-        end
-        @sync_channel.send nil
-      end
-    end
+    @parent_thread = Thread.current
 
-    @user_data = ->(msg_ptr : Void*, topic : String) {
-      # puts "(dispatcher) 1. before send"
-      # STDOUT.flush
-      begin
-        @dispatcher_channel.send({msg_ptr, topic})
-        # puts "(dispatcher) 2. after send & before yield"
-        # STDOUT.flush
-        GC.enable
-        Fiber.yield
-        @sync_channel.receive
-        GC.disable
-      rescue ex
-        STDERR.puts "Error while dispatching the hermes message to registered subscribers."
-        STDERR.puts ex
+    @user_data = ->(msg_ptr : Void*, topic : String, cleanup : -> Void) {
+      fiber = uninitialized Fiber
+      fiber = Fiber.new "User data fiber" do
+        begin
+          if @parent_thread != Thread.current
+            pp Thread.current
+            pp @parent_thread
+            raise "This code should run on the main thread, but does not for some reason."
+          end
+          subscriptions = @subscriptions[topic].dup
+          subscriptions.each &.call(msg_ptr)
+        rescue ex
+          STDERR.puts ex
+        ensure
+          cleanup.call
+          @active_fibers.delete fiber
+        end
       end
-    # puts "(dispatcher) 7. after user data send & yield"
-    # STDOUT.flush
+      fiber.@current_thread.set @parent_thread
+      @parent_thread.scheduler.enqueue fiber
+      @active_fibers << fiber
     }
-    # Prevent GC
+
+    # Prevent GC collecting the box
     @boxed_user_data = Box.box(@user_data)
 
     call! LibHermes.hermes_protocol_handler_new_mqtt_with_options(out handler, pointerof(mqttOptions), @boxed_user_data)

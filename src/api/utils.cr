@@ -25,10 +25,14 @@ module Api::Utils
         unless @subscriptions.has_key? %key
           @subscriptions[%key] = [] of Void* -> Void
           dispatcher = ->(message: LibHermes::C{{message}}*, user_data : Void*) {
-            GC.disable
-            Box((Void*, String) -> Void).unbox(user_data).call(message.as(Void*), {{ topic }})
-            LibHermes.{{drop}}(message)
-            GC.enable
+            GC.disable # Disabling GC because this callback runs inside a thread spawned by the hermes code.
+            cleanup = -> {
+              LibHermes.{{drop}}(message)
+              nil
+            }
+            Box((Void*, String, -> Void) -> Void).unbox(user_data).call(message.as(Void*), {{ topic }}, cleanup)
+            GC.enable # Re-enabling GC.
+            Process.kill(Signal::USR1, Process.pid)
           }
           call! LibHermes.hermes_{{ facade }}_subscribe_{{topic.id}}(@facade, *extra_args, dispatcher)
         end

@@ -68,16 +68,16 @@ macro publish_test(name, topic, facade, message, expected, focus = false)
       rescue ex
       end
     }
-    spawn {
-      begin
-        sleep 1
-        channel.send nil
-      rescue ex
-      end
+    timeout = delay 1 {
+      channel.send nil
     }
+
     client.try &.subscribe({{ topic }})
     hermes.try &.{{ facade }}.publish_{{ name }}({% if message %}(%message){% end %})
+
     stringified_msg = channel.receive
+    timeout.cancel
+
     stringified_msg.try &.should eq(%expected)
     stringified_msg.should_not eq(nil)
   end
@@ -88,14 +88,9 @@ macro subscribe_test(name, topic, facade, class_name, subscription = nil, extra 
     json_msg = File.read "./spec/messages/{{name.id.camelcase}}.json"
 
     channel = Channel({{class_name}}?).new
-    proxy = Channel({{class_name}}?).new
-
-    spawn {
-      channel.send proxy.receive
-    }
 
     hermes.try &.{{ facade }}.subscribe_{% if subscription %}{{ subscription }}{% else %}{{ name }}{% end %}({% if extra %}*{{extra}}, {% end %}once: true) do |msg|
-      proxy.send msg
+      channel.send msg
       Fiber.yield
     end
 
@@ -103,16 +98,13 @@ macro subscribe_test(name, topic, facade, class_name, subscription = nil, extra 
       client.try &.publish({{ topic }}, json_msg)
     }
 
-    spawn {
-      begin
-        sleep 1
-        channel.send nil
-      rescue ex
-      end
+    timeout = delay 1 {
+      channel.send nil
     }
 
     message = channel.receive
     channel.close
+    timeout.cancel
 
     message.try &.should eq(Messages.{{ name }})
     message.should_not eq(nil)
@@ -326,7 +318,7 @@ describe Hermes do
     end
   end
 
-  robustness_iterations = 10
+  robustness_iterations = 25
   describe "should, using the Flow api," do
     it "should perform one round of dialog flow at least #{robustness_iterations} times" do
       channel = Channel(String?).new
@@ -372,12 +364,8 @@ describe Hermes do
         end
       }
 
-      spawn {
-        begin
-          sleep 10
-          channel.send "Timeout…"
-        rescue
-        end
+      timeout = delay 10 {
+        channel.send "Timeout…"
       }
 
       Fiber.yield
@@ -386,6 +374,7 @@ describe Hermes do
 
       result = channel.receive
       channel.close
+      timeout.cancel
       flow_reference.try { |flow| hermes.try &.dialog.dispose_flows(flow) }
 
       if !result.nil?
@@ -402,13 +391,9 @@ describe Hermes do
       continue_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"continue\",\"intentFilter\":[\"jelb:lightsColor\"],\"customData\":null,\"sendIntentNotRecognized\":false,\"slot\":\"slot\"}"
       end_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"bye\"}"
 
-      # pp "Outside : #{Thread.current} #{Fiber.current}"
-      # pp Thread.current
       counter = 0
       loop = uninitialized Api::Flow::IntentContinuation
       loop = ->(msg : IntentMessage, flow : Api::Flow) {
-        # pp "Inside : #{Thread.current} #{Fiber.current}" if counter == 0
-        # pp Thread.current if counter == 0
         msg.should eq intent_message
         counter += 1
         if counter >= robustness_iterations
@@ -446,18 +431,15 @@ describe Hermes do
         end
       }
 
-      spawn {
-        begin
-          sleep 10
-          channel.send "Timeout…"
-        rescue
-        end
+      timeout = delay 10 {
+        channel.send "Timeout…"
       }
 
       client.try &.publish("hermes/intent/jelb:lightsColor", intent_json)
 
       result = channel.receive
       channel.close
+      timeout.cancel
       flow_reference.try { |flow| hermes.try &.dialog.dispose_flows(flow) }
 
       if !result.nil?
