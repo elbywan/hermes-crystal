@@ -435,7 +435,66 @@ describe Hermes do
         channel.send "Timeout…"
       }
 
-      client.try &.publish("hermes/intent/jelb:lightsColor", intent_json)
+      client.try &.publish "hermes/intent/jelb:lightsColor", intent_json
+
+      result = channel.receive
+      channel.close
+      timeout.cancel
+      flow_reference.try { |flow| hermes.try &.dialog.dispose_flows(flow) }
+
+      if !result.nil?
+        raise result
+      end
+    end
+
+    it "should react to intents not recognized events" do
+      channel = Channel(String?).new
+
+      intent_json = File.read "./spec/messages/Intent.json"
+      not_recognized_json = File.read "./spec/messages/IntentNotRecognized.json"
+      session_ended_json = File.read "./spec/messages/SessionEnded.json"
+      continue_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"continue\",\"intentFilter\":[\"hermes/intent/jelb:lightsColor\"],\"customData\":null,\"sendIntentNotRecognized\":true,\"slot\":null}"
+      end_session_json = "{\"sessionId\":\"677a2717-7ac8-44f8-9013-db2222f7923d\",\"text\":\"end\"}"
+
+      timeout = delay 1 {
+        channel.send "Timeout…"
+      }
+
+      handler = uninitialized Api::Flow::IntentContinuation
+      handler = ->(_msg : IntentMessage, flow : Api::Flow) {
+        flow.not_recognized {
+          "end"
+        }
+        flow.continue "hermes/intent/jelb:lightsColor", &handler
+        "continue"
+      }
+      flow_reference = hermes.try &.dialog.flow "jelb:lightsColor", &handler
+
+      spawn {
+        begin
+          client.try { |client|
+            client.subscribe "hermes/dialogueManager/continueSession"
+            client.subscribe "hermes/dialogueManager/endSession"
+          }
+          loop do
+            topic, msg = client.try(&.receive) || {nil, nil}
+            case topic
+            when "hermes/dialogueManager/continueSession"
+              msg.should eq continue_session_json
+              client.try &.publish "hermes/dialogueManager/intentNotRecognized", not_recognized_json
+            when "hermes/dialogueManager/endSession"
+              msg.should eq end_session_json
+              client.try &.publish "hermes/dialogueManager/sessionEnded", session_ended_json
+              channel.send nil
+              break
+            end
+          end
+        rescue ex
+          channel.send ex.to_s unless channel.closed?
+        end
+      }
+
+      client.try &.publish "hermes/intent/jelb:lightsColor", intent_json
 
       result = channel.receive
       channel.close
