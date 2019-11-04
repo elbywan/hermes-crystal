@@ -53,7 +53,8 @@ class Api::Dialog
   generate_subscriber(
     dialogue,
     "intent",
-    IntentMessage, hermes_drop_intent_message,
+    IntentMessage,
+    hermes_drop_intent_message,
     key_check: (
       message.intent.intent_name == extra_args[0]
     )

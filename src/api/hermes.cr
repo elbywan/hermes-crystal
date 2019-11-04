@@ -14,6 +14,10 @@ end
 
 # Used to resume the main event loop when a subscriber kick in.
 Signal::USR1.trap do
+  # Force garbage collection in the main thread,
+  # prevents further issues caused by the fact that
+  # the hermes lib spawns its own threads.
+  GC.collect
   Fiber.yield
 end
 
