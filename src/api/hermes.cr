@@ -86,11 +86,15 @@ class Hermes
   # Disposes the hermes object and its underlying resources.
   def destroy
     @dialog.try &.destroy
+    @dialog = nil
     @feedback.try &.destroy
+    @feedback = nil
     @injection.try &.destroy
+    @injection = nil
     @tts.try &.destroy
+    @tts = nil
 
-    call! LibHermes.hermes_destroy_mqtt_protocol_handler(@handler)
+    call! LibHermes.hermes_destroy_mqtt_protocol_handler(@handler) if @handler
 
     @handler = nil
   end

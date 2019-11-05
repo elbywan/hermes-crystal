@@ -202,7 +202,7 @@ module Bindings::Utils
           (0...size).each do |i|
             elt = c_data.{{ data_field }}[i]
             %to_push = (
-              {% if from_c %}{{ from_c }}{% elsif dbl_ptr %}{{ type }}.new elt.value{% else %}{{ type }}.new(elt){% end %}
+              {% if from_c %}{{ from_c }}{% elsif dbl_ptr %}{{ type }}.new elt.value{% else %}{{ type }}.new elt{% end %}
             )
             @data << %to_push
           end
@@ -217,9 +217,9 @@ module Bindings::Utils
             {% if to_c %}
               {{ to_c }}
             {% elsif dbl_ptr %}
-              ptr_alloc(elt.to_unsafe)
+              ptr_alloc elt.to_unsafe
             {% else %}
-            elt.to_unsafe
+              elt.to_unsafe
             {% end %}
           end,
           {{ size_field }}: {% if size_type %}{{ size_type }}.new {% end %}@data.size

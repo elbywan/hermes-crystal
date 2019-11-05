@@ -27,8 +27,7 @@ module Api::Utils
           dispatcher = ->(message: LibHermes::C{{message}}*, user_data : Void*) {
             GC.disable # Disabling GC because this callback runs inside a thread spawned by the hermes code.
             cleanup = -> {
-              # Seems like crystal gc already takes care of freeing the struct.
-              # LibHermes.{{drop}}(message)
+              LibHermes.{{drop}}(message)
               nil
             }
             Box((Void*, String, -> Void) -> Void).unbox(user_data).call(message.as(Void*), {{ topic }}, cleanup)
