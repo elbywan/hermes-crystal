@@ -727,6 +727,8 @@
 
 <h4>A crystal wrapper around the hermes protocol</h4>
 
+<p><a href="https://elbywan.github.io/hermes-crystal/" target="_blank"><img src="https://img.shields.io/badge/docs-available-brightgreen.svg" alt="Docs"/></a></p>
+
 <h2>Context</h2>
 
 <p>The <code>hermes-crystal</code> library provides bindings for the <a href="https://docs.snips.ai/reference/hermes" target="_blank">Hermes protocol</a> that <a href="https://snips.ai/" target="_blank">Snips</a> components use to communicate together. <code>hermes-crystal</code> allows you to interface seamlessly with the Snips platform and create Voice applications with ease!</p>
@@ -759,7 +761,10 @@ hermes.dialog.flow <span class="s">&quot;myIntent&quot;</span> <span class="k">d
   pp msg
   <span class="c"># End the session and speak</span>
   <span class="s">&quot;Received message for intent </span><span class="i">#{</span>msg.intent.intent_name<span class="i">}</span><span class="s">&quot;</span>
-<span class="k">end</span></code></pre>
+<span class="k">end</span>
+
+<span class="c"># To prevent the process from exiting, if needed, you can use `sleep`.</span>
+sleep</code></pre>
 
 <h3>Expanded use case</h3>
 

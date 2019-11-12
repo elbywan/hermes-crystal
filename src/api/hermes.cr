@@ -39,6 +39,21 @@ class Hermes
   @active_fibers : Array(Fiber) = [] of Fiber
   @parent_thread : Thread
 
+  # Helper
+
+  # Creates a new hermes instance and yields it to the block.
+  # When the proc returns, gracefully destroy the underlying resources.
+  def self.with_hermes(**options, &)
+    hermes = Hermes.new **options
+    begin
+      yield hermes
+    rescue ex
+      STDERR.puts ex
+    ensure
+      hermes.destroy
+    end
+  end
+
   # Lifecycle
 
   # Create a new Hermes instance that connects to the underlying event bus.

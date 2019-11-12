@@ -20,7 +20,7 @@ module Bindings
     call!(result)
   end
 
-  @[Link("hermes_mqtt_ffi")]
+  @[Link("hermes_mqtt_ffi", ldflags: "-L#{__DIR__}/../..")]
   lib LibHermes
     # Aliases
     alias Int32T = LibC::Int

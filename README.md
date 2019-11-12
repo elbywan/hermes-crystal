@@ -2,6 +2,8 @@
 
 #### A crystal wrapper around the hermes protocol
 
+[![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://elbywan.github.io/hermes-crystal/)
+
 ## Context
 
 The `hermes-crystal` library provides bindings for the [Hermes protocol](https://docs.snips.ai/reference/hermes) that [Snips](https://snips.ai/) components use to communicate together. `hermes-crystal` allows you to interface seamlessly with the Snips platform and create Voice applications with ease!
@@ -40,6 +42,9 @@ hermes.dialog.flow "myIntent" do |msg, flow|
   # End the session and speak
   "Received message for intent #{msg.intent.intent_name}"
 end
+
+# To prevent the process from exiting, if needed, you can use `sleep`.
+sleep
 ```
 
 ### Expanded use case

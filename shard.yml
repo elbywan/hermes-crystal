@@ -1,5 +1,6 @@
 name: hermes-crystal
-version: 0.1.0
+version: 0.2.0
+hermes-version: 0.68.1
 description: Crystal bindings to the Hermes protocol used by the Snips platform. 💎
 
 authors:
@@ -8,6 +9,11 @@ authors:
 crystal: 0.31.1
 
 license: MIT
+
+repository: https://github.com/elbywan/hermes-crystal
+
+scripts:
+  postinstall: crystal run ./script/postinstall.cr
 
 development_dependencies:
   crystal_lib:

@@ -1,32 +1,26 @@
 require "sam"
 require "file_utils"
 
-library_path = "#{FileUtils.pwd}/hermes-protocol/target/debug:/usr/local/opt/openssl/lib"
-
 # desc "Build the library"
 # task "build" do
-#   ENV["LIBRARY_PATH"] ||= library_path
 #   system `crystal build src/main.cr -o bin/main --release`
 # end
 
 namespace "test" do
   desc "Run the roundtrip test suite"
   task "roundtrip" do
-    ENV["LIBRARY_PATH"] ||= library_path
     ENV["RUST_LOG"] ||= "debug"
     system "crystal spec spec/roundtrips_spec.cr --error-trace -d"
   end
 
   desc "Run the mqtt test suite"
   task "mqtt" do
-    ENV["LIBRARY_PATH"] ||= library_path
     ENV["RUST_LOG"] ||= "debug"
     system "crystal spec spec/mqtt_spec.cr --error-trace -d"
   end
 
   desc "Run the mqtt tls test suite"
   task "mqtt_tls" do
-    ENV["LIBRARY_PATH"] ||= library_path
     ENV["RUST_LOG"] ||= "debug"
     system "crystal spec spec/mqtt_tls_spec.cr --error-trace -d"
   end

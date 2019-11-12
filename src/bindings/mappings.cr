@@ -256,15 +256,15 @@ module Mappings
 
   # A duration slot value.
   #
-  # year [`Int64`] : Number of years in the duration.
-  # quarters [`Int64`] : Number of quarters in the duration.
-  # months [`Int64`] : Number of months in the duration.
-  # weeks [`Int64`] : Number of weeks in the duration.
-  # days [`Int64`] : Number of days in the duration.
-  # hours [`Int64`] : Number of hours in the duration.
-  # minutes [`Int64`] : Number of minutes in the duration.
-  # seconds [`Int64`] : Number of seconds in the duration.
-  # precision [`SnipsPrecision`] : Precision of the resolved value.
+  # - year [`Int64`] : Number of years in the duration.
+  # - quarters [`Int64`] : Number of quarters in the duration.
+  # - months [`Int64`] : Number of months in the duration.
+  # - weeks [`Int64`] : Number of weeks in the duration.
+  # - days [`Int64`] : Number of days in the duration.
+  # - hours [`Int64`] : Number of hours in the duration.
+  # - minutes [`Int64`] : Number of minutes in the duration.
+  # - seconds [`Int64`] : Number of seconds in the duration.
+  # - precision [`SnipsPrecision`] : Precision of the resolved value.
   struct_map DurationValue,
     year : LibC::LongLong,
     quarters : LibC::LongLong,

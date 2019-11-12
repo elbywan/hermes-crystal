@@ -16,3 +16,5 @@ main
 *.dll
 
 test.cr
+
+libhermes_mqtt_ffi*
