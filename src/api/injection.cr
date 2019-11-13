@@ -1,6 +1,8 @@
 require "../bindings"
 require "./utils"
 
+# The Injection facade, used to programatically and dynamically
+# inject new data into the voice recognition model.
 class Api::Injection
   include Bindings
   include Api::Utils

@@ -1,6 +1,7 @@
 require "../bindings"
 require "./utils"
 
+# The TTS facade, used to register and play sounds.
 class Api::Tts
   include Bindings
   include Api::Utils

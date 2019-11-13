@@ -4,7 +4,7 @@ require "./injection"
 require "./feedback"
 require "./tts"
 
-# Unfortunately needed to enqueue the subscriber fiber in the main thread scheduler.
+# Unfortunately, this override is needed to enqueue the subscriber fiber in the main thread scheduler.
 # :nodoc:
 class Crystal::Scheduler
   def enqueue(fiber : Fiber) : Nil
@@ -12,7 +12,7 @@ class Crystal::Scheduler
   end
 end
 
-# Used to resume the main event loop when a subscriber kick in.
+# Used to resume the main event loop when a subscriber kicks in.
 Signal::USR1.trap do
   # Force garbage collection in the main thread,
   # prevents further issues caused by the fact that
@@ -43,6 +43,13 @@ class Hermes
 
   # Creates a new hermes instance and yields it to the block.
   # When the proc returns, gracefully destroy the underlying resources.
+  #
+  # ```
+  # Hermes.with_hermes broker_address: "localhost:1883" do |hermes|
+  #   # do stuff…
+  #   sleep # or wait for something to finish
+  # end
+  # ```
   def self.with_hermes(**options, &)
     hermes = Hermes.new **options
     begin
@@ -57,8 +64,12 @@ class Hermes
   # Lifecycle
 
   # Create a new Hermes instance that connects to the underlying event bus.
+  #
+  # ```
+  # hermes = Hermes.new broker_address: "localhost:1883"
+  # ```
   def initialize(**options)
-    mqttOptions = MqttOptions.new(**options).to_unsafe
+    mqtt_options = MqttOptions.new(**options).to_unsafe
     @subscriptions = {} of String => Array(Void* -> Void)
 
     @parent_thread = Thread.current
@@ -89,7 +100,7 @@ class Hermes
     # Prevent GC collecting the box
     @boxed_user_data = Box.box(@user_data)
 
-    call! LibHermes.hermes_protocol_handler_new_mqtt_with_options(out handler, pointerof(mqttOptions), @boxed_user_data)
+    call! LibHermes.hermes_protocol_handler_new_mqtt_with_options(out handler, pointerof(mqtt_options), @boxed_user_data)
     @handler = handler
   end
 

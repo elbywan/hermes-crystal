@@ -3,6 +3,8 @@
 #### A crystal wrapper around the hermes protocol
 
 [![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://elbywan.github.io/hermes-crystal/)
+[![GitHub release](https://img.shields.io/github/release/elbywan/hermes-crystal.svg)](https://github.com/elbywan/hermes-crystal/releases)
+[![Build Status](https://travis-ci.org/elbywan/hermes-crystal.svg?branch=master)](https://travis-ci.org/elbywan/hermes-crystal)
 
 ## Context
 
@@ -21,6 +23,19 @@ dependencies:
 ```
 
 2. Run `shards install`
+
+A postinstall script will automagically download the file if your os and architecture is supported.
+
+#### ⚠️ Unsupported platforms / architectures
+
+If the setup could not infer the library file version, it will attempt to build it from the sources.
+Please note that [`rust`](https://www.rust-lang.org/tools/install) and [`git`](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) are required in order to build the library.
+
+If you want to force this behaviour, you can also define the `HERMES_BUILD_FROM_SOURCES` environment variable before running `shards install`.
+
+```sh
+env HERMES_BUILD_FROM_SOURCES=true shards install
+```
 
 ## Usage
 

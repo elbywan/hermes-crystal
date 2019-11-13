@@ -1,6 +1,7 @@
 require "../bindings"
 require "./utils"
 
+# The Feedback facade, used to programatically configure the sound feedback of the platform.
 class Api::Feedback
   include Bindings
   include Api::Utils

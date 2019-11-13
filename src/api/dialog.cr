@@ -2,6 +2,7 @@ require "../bindings/mappings"
 require "./utils"
 require "./flow"
 
+# The Dialog facade, used to simulate dialogue rounds between the user and the action.
 class Api::Dialog
   include Mappings
   include Api::Utils

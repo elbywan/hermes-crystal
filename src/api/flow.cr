@@ -2,6 +2,29 @@ require "../bindings/mappings"
 require "./dialog"
 
 # The dialog flow class can be used to easily build complex dialog trees.
+#
+# To create a dialog flow:
+#
+# ```
+# require "hermes-crystal"
+#
+# # Instantiate hermes
+# hermes = Hermes.new broker_address: "localhost:1883"
+# # Initialize a flow
+# hermes.dialog.flow "intent_name" do |message, flow|
+#   # Perform actions to perform in the dialogue round.
+#   flow.continue "next_intent" do |message, flow|
+#     # ...
+#   end
+#
+#   flow.not_recognized do |message, flow|
+#     # ...
+#   end
+#
+#   # Make the text-to-speech talk.
+#   "Hello world."
+# end
+# ```
 class Api::Flow
   include Mappings
 
