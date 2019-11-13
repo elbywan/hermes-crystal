@@ -1,5 +1,13 @@
 language: crystal
 
+addons:
+  apt:
+    packages:
+      - mosquitto
+
 script:
+  - git submodule update --init --recursive
+  - (cd hermes-protocol && cargo build -p hermes-mqtt-ffi -p hermes-ffi-test --release)
+  - cp ./hermes-protocol/release/libhermes_mqtt_ffi.so .
   - crystal spec
   - crystal tool format --check
