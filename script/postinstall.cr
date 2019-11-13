@@ -13,7 +13,10 @@ SUPPORTED_CONFIGURATIONS = {
 
 puts bold "- Checking platform support."
 
-if SUPPORTED_CONFIGURATIONS.has_key?({OS, ARCH})
+if ENV.has_key? "HERMES_BUILD_FROM_SOURCES"
+  puts success "Environment variable 'HERMES_BUILD_FROM_SOURCES' is set."
+  build_from_sources
+elsif SUPPORTED_CONFIGURATIONS.has_key?({OS, ARCH})
   begin
     dest_path = (Path[__DIR__] / ".." / library_file_name).normalize.to_s
     puts bold "- Downloading the hermes mqtt dynamic library file. Target: #{dest_path}."
