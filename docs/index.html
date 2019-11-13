@@ -727,7 +727,9 @@
 
 <h4>A crystal wrapper around the hermes protocol</h4>
 
-<p><a href="https://elbywan.github.io/hermes-crystal/" target="_blank"><img src="https://img.shields.io/badge/docs-available-brightgreen.svg" alt="Docs"/></a></p>
+<p><a href="https://elbywan.github.io/hermes-crystal/" target="_blank"><img src="https://img.shields.io/badge/docs-available-brightgreen.svg" alt="Docs"/></a>
+<a href="https://github.com/elbywan/hermes-crystal/releases" target="_blank"><img src="https://img.shields.io/github/release/elbywan/hermes-crystal.svg" alt="GitHub release"/></a>
+<a href="https://travis-ci.org/elbywan/hermes-crystal" target="_blank"><img src="https://travis-ci.org/elbywan/hermes-crystal.svg?branch=master" alt="Build Status"/></a></p>
 
 <h2>Context</h2>
 
@@ -744,6 +746,17 @@
     github: elbywan/hermes-crystal</code></pre>
 
 <ol><li>Run <code>shards install</code></li></ol>
+
+<p>A postinstall script will automagically download the file if your os and architecture is supported.</p>
+
+<h4>⚠️ Unsupported platforms / architectures</h4>
+
+<p>If the setup could not infer the library file version, it will attempt to build it from the sources.
+Please note that <a href="https://www.rust-lang.org/tools/install" target="_blank"><code>rust</code></a> and <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" target="_blank"><code>git</code></a> are required in order to build the library.</p>
+
+<p>If you want to force this behaviour, you can also define the <code>HERMES_BUILD_FROM_SOURCES</code> environment variable before running <code>shards install</code>.</p>
+
+<pre><code class="language-sh">env HERMES_BUILD_FROM_SOURCES=true shards install</code></pre>
 
 <h2>Usage</h2>
 

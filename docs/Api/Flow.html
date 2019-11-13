@@ -739,6 +739,27 @@
 
   <p>The dialog flow class can be used to easily build complex dialog trees.</p>
 
+<p>To create a dialog flow:</p>
+
+<pre><code><span class="k">require</span> <span class="s">&quot;hermes-crystal&quot;</span>
+
+<span class="c"># Instantiate hermes</span>
+hermes <span class="o">=</span> <span class="t">Hermes</span>.<span class="k">new</span> broker_address: <span class="s">&quot;localhost:1883&quot;</span>
+<span class="c"># Initialize a flow</span>
+hermes.dialog.flow <span class="s">&quot;intent_name&quot;</span> <span class="k">do</span> <span class="o">|</span>message, flow<span class="o">|</span>
+  <span class="c"># Perform actions to perform in the dialogue round.</span>
+  flow.continue <span class="s">&quot;next_intent&quot;</span> <span class="k">do</span> <span class="o">|</span>message, flow<span class="o">|</span>
+    <span class="c"># ...</span>
+  <span class="k">end</span>
+
+  flow.not_recognized <span class="k">do</span> <span class="o">|</span>message, flow<span class="o">|</span>
+    <span class="c"># ...</span>
+  <span class="k">end</span>
+
+  <span class="c"># Make the text-to-speech talk.</span>
+  <span class="s">&quot;Hello world.&quot;</span>
+<span class="k">end</span></code></pre>
+
 
 
 
@@ -762,7 +783,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/flow.cr#L5" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/flow.cr#L28" target="_blank">
         api/flow.cr
       </a>
     
@@ -896,7 +917,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/flow.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/flow.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -917,7 +938,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/flow.cr#L87" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/flow.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>

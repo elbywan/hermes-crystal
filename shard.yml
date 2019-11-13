@@ -1,5 +1,5 @@
 name: hermes-crystal
-version: 0.2.0
+version: 0.2.1
 hermes-version: 0.68.1
 description: Crystal bindings to the Hermes protocol used by the Snips platform. 💎
 

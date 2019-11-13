@@ -767,7 +767,7 @@ subscribe and send Snips messages using the Hermes protocol.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L26" target="_blank">
+      <a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L26" target="_blank">
         api/hermes.cr
       </a>
     
@@ -990,12 +990,14 @@ subscribe and send Snips messages using the Hermes protocol.</p>
         <div class="doc">
           
           <p>Create a new Hermes instance that connects to the underlying event bus.</p>
+
+<pre><code>hermes <span class="o">=</span> <span class="t">Hermes</span>.<span class="k">new</span> broker_address: <span class="s">&quot;localhost:1883&quot;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L60" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L71" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1021,7 +1023,7 @@ subscribe and send Snips messages using the Hermes protocol.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L139" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L150" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1038,12 +1040,17 @@ subscribe and send Snips messages using the Hermes protocol.</p>
           
           <p>Creates a new hermes instance and yields it to the block.
 When the proc returns, gracefully destroy the underlying resources.</p>
+
+<pre><code><span class="t">Hermes</span>.with_hermes broker_address: <span class="s">&quot;localhost:1883&quot;</span> <span class="k">do</span> <span class="o">|</span>hermes<span class="o">|</span>
+  <span class="c"># do stuff…</span>
+  sleep <span class="c"># or wait for something to finish</span>
+<span class="k">end</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1069,7 +1076,7 @@ When the proc returns, gracefully destroy the underlying resources.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L102" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L113" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1090,7 +1097,7 @@ When the proc returns, gracefully destroy the underlying resources.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L120" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L131" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1111,7 +1118,7 @@ When the proc returns, gracefully destroy the underlying resources.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L139" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1132,7 +1139,7 @@ When the proc returns, gracefully destroy the underlying resources.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L97" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L108" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1153,7 +1160,7 @@ When the proc returns, gracefully destroy the underlying resources.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L124" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L135" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1174,7 +1181,7 @@ When the proc returns, gracefully destroy the underlying resources.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/elbywan/hermes-crystal/blob/39d9a3a510c2de2cca16e182511cad81822ec5e0/src/api/hermes.cr#L132" target="_blank">View source</a>]
+          [<a href="https://github.com/elbywan/hermes-crystal/blob/209e2494845da6b35acc80bcb6f52672269c034d/src/api/hermes.cr#L143" target="_blank">View source</a>]
         
       </div>
     </div>
