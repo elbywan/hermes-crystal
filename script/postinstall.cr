@@ -37,7 +37,7 @@ elsif SUPPORTED_CONFIGURATIONS.has_key?({OS, ARCH})
         loop do
           nb_read = body_io.read slice
           size_downloaded += nb_read / 1000
-          print "\e[1000DDownloaded: #{(size_downloaded).round(3)} / #{total_size / 1000} KB."
+          print "Downloaded: #{(size_downloaded).round(3)} / #{total_size / 1000} KB.\r"
           break if nb_read == 0
           file.write slice[...nb_read]
         end
