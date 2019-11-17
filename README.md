@@ -64,25 +64,27 @@ sleep
 
 ### Expanded use case
 
+#### High level "flow" API.
+
 ```crystal
 require "hermes-crystal"
 
 hermes = Hermes.new broker_address: "localhost:1883"
+
 # NB: dialog is only one of the available API facades.
 dialog = hermes.dialog
 
-#### High level "flow" API.
-
 # Using the high level API is strongly recommended for building complex dialog flows.
 
-# The goal is to register the following dialog paths:
+# Let's register the following dialog paths:
 # A
 # ├── B
 # │   └─ D
 # └── C
-# In plain words, intent 'A' starts the flow, then restrain the next intents to 'B' or 'C'.
-# If 'B' is the next intent detected, then next intent must be 'D' (and end the flow after 'D').
-# If it was 'C', end the flow.
+#
+# In plain words, intent 'A' starts the flow, then for the next round possible intents are 'B' or 'C'.
+# If 'B' is the next intent detected, then the following intent must be 'D' and then the flow will end.
+# If 'C' is the next intent, the flow will end.
 
 dialog.flow "A" do |_, flow|
   puts "Intent A received. Session started."
@@ -91,7 +93,7 @@ dialog.flow "A" do |_, flow|
   # registering the next intents, or end the flow by not
   # registering any continuations.
 
-  # We then subscribe to both intent B or C so that the dialog
+  # We choose to subscribe to both intent B or C so that the dialog
   # flow will continue with either one or the other next.
 
   # Mark intent 'B' as one of the next dialog intents. (A -> B)
@@ -100,7 +102,7 @@ dialog.flow "A" do |_, flow|
 
     # Mark intent 'D'. (A -> B -> D)
     flow.continue "D" do |_, flow|
-        puts "Intent D received. Session is ended."
+        puts "Intent D received."
         "Finished the session with intent D."
     end
 
@@ -111,15 +113,24 @@ dialog.flow "A" do |_, flow|
   # Mark intent 'C' as one of the next dialog intents. (A -> C)
   flow.continue "C" do |msg, flow|
       slot_value = msg.slots.try &.[0].value.value
-      puts "Intent C received. Session is ended."
+      puts "Intent C received."
       "Finished the session with intent C having value #{slot_value} ."
   end
 
   # A flow function must return a string that is going to be spoken by the TTS.
   "Continue with B or C."
 end
+```
 
 #### Low level subscriber / publisher API.
+
+```crystal
+require "hermes-crystal"
+
+hermes = Hermes.new broker_address: "localhost:1883"
+
+# NB: dialog is only one of the available API facades.
+dialog = hermes.dialog
 
 # Every API facade can publish and receive data based on a list of events.
 
