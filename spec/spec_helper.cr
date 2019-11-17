@@ -12,7 +12,7 @@ def find_open_port
   port
 end
 
-@[Link("hermes_ffi_test", ldflags: "-L#{__DIR__}/../hermes-protocol/target/debug")]
+@[Link("hermes_ffi_test", ldflags: "-L#{__DIR__}/../hermes-protocol/target/release")]
 lib HermesFFITest
   fun hermes_ffi_test_round_trip_start_session(
     input : LibHermes::CStartSessionMessage*,

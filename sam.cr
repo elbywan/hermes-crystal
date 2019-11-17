@@ -6,6 +6,8 @@ require "file_utils"
 #   system `crystal build src/main.cr -o bin/main --release`
 # end
 
+ENV["LIBRARY_PATH"] ||= Path[__DIR__, "hermes-protocol", "target", "release"].normalize.to_s
+
 namespace "test" do
   desc "Run the roundtrip test suite"
   task "roundtrip" do

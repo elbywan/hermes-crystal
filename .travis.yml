@@ -5,11 +5,15 @@ addons:
     packages:
       - mosquitto
 
-script:
+env:
+  - LD_LIBRARY_PATH=/home/travis/build/elbywan/hermes-crystal/hermes-protocol/target/release LIBRARY_PATH=/home/travis/build/elbywan/hermes-crystal/hermes-protocol/target/release
+
+before_script:
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   - source $HOME/.cargo/env
   - git submodule update --init --recursive
   - (cd hermes-protocol && cargo build -p hermes-mqtt-ffi -p hermes-ffi-test --release)
-  - cp ./hermes-protocol/target/release/libhermes_mqtt_ffi.so .
+
+script:
   - crystal sam.cr -- test
   - crystal tool format --check

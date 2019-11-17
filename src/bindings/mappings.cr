@@ -432,7 +432,7 @@ module Mappings
     SlotValue,
     LibHermes::CSlotValueArray,
     data_field: slot_values
-    # size_type: Int32
+  # size_type: Int32
 
   # Slot data.
   #
