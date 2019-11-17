@@ -15,6 +15,10 @@ repository: https://github.com/elbywan/hermes-crystal
 scripts:
   postinstall: crystal run ./script/postinstall.cr
 
+dependencies:
+  struct-mappings:
+    github: elbywan/struct-mappings
+
 development_dependencies:
   crystal_lib:
     github: crystal-lang/crystal_lib

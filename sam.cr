@@ -32,7 +32,7 @@ end
 
 namespace "generate" do
   desc "Generate documentation files"
-  task "docs" do |_, args|
+  task "docs" do
     system "rm -Rf ./docs && crystal docs"
   end
 

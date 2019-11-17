@@ -1,5 +1,5 @@
+require "struct-mappings"
 require "./bindings"
-require "./utils"
 
 # **Contains high-level serializable mappings to the hermes library data structures.**
 #
@@ -10,13 +10,6 @@ require "./utils"
 # They also implement the `to_unsafe` method and can be converted from and to c structures easily.
 module Mappings
   include Bindings
-  include Utils
-
-  private abstract class Mapping
-  end
-
-  private abstract class ArrayMapping
-  end
 
   # A class representing the configuration of the MQTT client.
   #
@@ -77,7 +70,8 @@ module Mappings
   end
 
   # An array of `String`.
-  struct_array_map StringArray, String
+  struct_array_mapping StringArray, String, LibHermes::CStringArray,
+    from_data: elt
 
   # Data used to initialize a session of type "Action".
   #
@@ -88,15 +82,15 @@ module Mappings
   # A boolean to indicate whether the dialogue manager should handle non recognized intents by
   # itself or sent them as an `CIntentNotRecognizedMessage` for the client to handle. This
   # setting applies only to the next conversation turn.
-  struct_map ActionSessionInit,
+  struct_mapping ActionSessionInit, LibHermes::CActionSessionInit,
     text : String?,
-    intent_filter : StringArray?,
+    intent_filter : StringArray? = {ptr: true},
     can_be_enqueued : Bool,
     send_intent_not_recognized : Bool
 
   # An class symbolizing session data that is either wrapping a `String` or an `ActionSessionInit`.
-  private class SessionInit < Mapping
-    Utils.mapping(String | ActionSessionInit) do
+  private class SessionInit < StructMapping
+    Mappings.base_mapping(String | ActionSessionInit) do
       if data.is_a?(String)
         @data = data
       else
@@ -132,7 +126,7 @@ module Mappings
   # - init [`String` | `ActionSessionInit`] : The way this session should be created.
   # - site_id [`String`] : The site where the session should be started, a nil value will be interpreted as "default".
   # - custom_data [`String`] : Optional data that will be passed to the next session event.
-  struct_map StartSessionMessage,
+  struct_mapping StartSessionMessage, LibHermes::CStartSessionMessage,
     site_id : String?,
     custom_data : String?,
     init : SessionInit
@@ -153,10 +147,10 @@ module Mappings
   # intents by itself or sent them as a `CIntentNotRecognizedMessage` for the client to handle.
   # This setting applies only to the next conversation turn. The default value is false (and
   # the dialogue manager will handle non recognized intents by itself).
-  struct_map ContinueSessionMessage,
+  struct_mapping ContinueSessionMessage, LibHermes::CContinueSessionMessage,
     session_id : String,
     text : String?,
-    intent_filter : StringArray?,
+    intent_filter : StringArray? = {ptr: true},
     custom_data : String?,
     slot : String?,
     send_intent_not_recognized : Bool
@@ -166,7 +160,7 @@ module Mappings
   # - session_id [`String`] : The id of the session that was queued.
   # - custom_data [`String`] : Nullable, the custom data that was given at the creation of the session.
   # - site_id [`String`] : The site on which this session was queued.
-  struct_map SessionQueuedMessage,
+  struct_mapping SessionQueuedMessage, LibHermes::CSessionQueuedMessage,
     session_id : String,
     custom_data : String?,
     site_id : String
@@ -180,7 +174,7 @@ module Mappings
   # Nullable, this field indicates this session is a reactivation of a previously ended session.
   # This is for example provided when the user continues talking to the platform without saying
   # the hotword again after a session was ended.
-  struct_map SessionStartedMessage,
+  struct_mapping SessionStartedMessage, LibHermes::CSessionStartedMessage,
     session_id : String,
     custom_data : String?,
     site_id : String,
@@ -193,7 +187,7 @@ module Mappings
   # Nullable, set if the type is `SnipsSessionTerminationType::Error` and gives more info about the error that happened.
   # - component [`SnipsHermesComponent`] :
   # If the type is `SnipsSessionTerminationType::Timeout`, this field contains the component id that generated the timeout.
-  struct_map SessionTermination,
+  struct_mapping SessionTermination, LibHermes::CSessionTermination,
     termination_type : SnipsSessionTerminationType,
     data : String?,
     component : SnipsHermesComponent
@@ -204,7 +198,7 @@ module Mappings
   # - custom_data [`String`] : Nullable, the custom data associated to this session.
   # - termination [`SessionTermination`] : How the session was ended.
   # - site_id [`String`] : The site on which this session took place.
-  struct_map SessionEndedMessage,
+  struct_mapping SessionEndedMessage, LibHermes::CSessionEndedMessage,
     session_id : String,
     custom_data : String?,
     termination : SessionTermination,
@@ -215,7 +209,7 @@ module Mappings
   # - value [`String`] : String representation of the instant.
   # - grain [`SnipsGrain`] : The grain of the resolved instant.
   # - precision [`SnipsPrecision`] : The precision of the resolved instant.
-  struct_map InstantTimeValue,
+  struct_mapping InstantTimeValue, LibHermes::CInstantTimeValue,
     value : String,
     grain : SnipsGrain,
     precision : SnipsPrecision
@@ -226,7 +220,7 @@ module Mappings
   #
   # - from [`String`] : String representation of the beginning of the interval.
   # - to [`String`] : String representation of the end of the interval.
-  struct_map TimeIntervalValue,
+  struct_mapping TimeIntervalValue, LibHermes::CTimeIntervalValue,
     from : String,
     to : String
 
@@ -237,7 +231,7 @@ module Mappings
   # - unit [`String`] : The currency.
   # - value [`Float32`] : The amount of money.
   # - precision [`SnipsPrecision`] : The precision of the resolved value.
-  struct_map AmountOfMoneyValue,
+  struct_mapping AmountOfMoneyValue, LibHermes::CAmountOfMoneyValue,
     unit : String,
     value : LibC::Float,
     precision : SnipsPrecision
@@ -248,7 +242,7 @@ module Mappings
   #
   # - unit [`String`] : The unit used.
   # - value [`Float32`] : The temperature resolved.
-  struct_map TemperatureValue,
+  struct_mapping TemperatureValue, LibHermes::CTemperatureValue,
     unit : String,
     value : LibC::Float
 
@@ -265,7 +259,7 @@ module Mappings
   # - minutes [`Int64`] : Number of minutes in the duration.
   # - seconds [`Int64`] : Number of seconds in the duration.
   # - precision [`SnipsPrecision`] : Precision of the resolved value.
-  struct_map DurationValue,
+  struct_mapping DurationValue, LibHermes::CDurationValue,
     year : LibC::LongLong,
     quarters : LibC::LongLong,
     months : LibC::LongLong,
@@ -282,7 +276,7 @@ module Mappings
   #
   # - value [`DataValueType`] : The value of the slot.
   # - value_type [`SnipsSlotValueType`] : The type of the value.
-  class SlotValue < Mapping
+  class SlotValue < StructMapping
     alias DataType = {value: DataValueType, value_type: SnipsSlotValueType}
     alias DataValueType = String |
                           LibC::Double |
@@ -301,7 +295,7 @@ module Mappings
       @data["value_type"]
     end
 
-    Utils.mapping(DataType) do
+    Mappings.base_mapping(DataType) do
       value = data["value"]
       value_type = data["value_type"]
 
@@ -434,10 +428,11 @@ module Mappings
   end
 
   # An array of `SlotValue`.
-  struct_array_map SlotValueArray,
+  struct_array_mapping SlotValueArray,
     SlotValue,
-    data_field: slot_values,
-    size_type: Int32
+    LibHermes::CSlotValueArray,
+    data_field: slot_values
+    # size_type: Int32
 
   # Slot data.
   #
@@ -449,7 +444,7 @@ module Mappings
   # - range_start [`Int32`] : Start index of raw value in input text.
   # - range_end [`Int32`] : End index of raw value in input text.
   # - confidence_score [`Float32`] : Confidence score of the slot.
-  struct_map Slot,
+  struct_mapping Slot, LibHermes::CSlot,
     value : SlotValue = {ptr: true},
     alternatives : SlotValueArray = {ptr: true},
     raw_value : String,
@@ -460,8 +455,9 @@ module Mappings
     confidence_score : LibC::Float
 
   # An array of `Slot`.
-  struct_array_map NluSlotArray,
+  struct_array_mapping NluSlotArray,
     Slot,
+    LibHermes::CNluSlotArray,
     data_field: entries,
     size_field: count,
     from_c: (
@@ -480,7 +476,7 @@ module Mappings
   #
   # - intent_name [`String`] : Name of the intent detected.
   # - confidence_score [`Float32`] : Confidence score, comprised between 0 and 1.
-  struct_map NluIntentClassifierResult,
+  struct_mapping NluIntentClassifierResult, LibHermes::CNluIntentClassifierResult,
     intent_name : String,
     confidence_score : LibC::Float
 
@@ -489,14 +485,15 @@ module Mappings
   # - intent_name [`String`] : Nullable, name of the intent detected (null = no intent).
   # - slots [`NluSlotArray`] : Nullable, array of slots detected.
   # - confidence_score [`Float32`] : Confidence score.
-  struct_map NluIntentAlternative,
+  struct_mapping NluIntentAlternative, LibHermes::CNluIntentAlternative,
     intent_name : String?,
     slots : NluSlotArray? = {ptr: true},
     confidence_score : LibC::Float
 
   # Array of `NluIntentAlternative`.
-  struct_array_map NluIntentAlternativeArray,
+  struct_array_mapping NluIntentAlternativeArray,
     NluIntentAlternative,
+    LibHermes::CNluIntentAlternativeArray,
     dbl_ptr: true,
     data_field: entries,
     size_field: count
@@ -505,7 +502,7 @@ module Mappings
   #
   # - start [`Float32`] : The beginning of the decoding.
   # - end [`Float32`] : The end of the decoding.
-  struct_map AsrDecodingDuration,
+  struct_mapping AsrDecodingDuration, LibHermes::CAsrDecodingDuration,
     start : LibC::Float,
     end_ : LibC::Float
 
@@ -516,7 +513,7 @@ module Mappings
   # - range_start [`Int32`] : The beginning of the range in the whole text.
   # - range_end [`Int32`] : The end of the range in the whole text.
   # - time [`AsrDecodingDuration`] : The time at which the token was spoken.
-  struct_map AsrToken,
+  struct_mapping AsrToken, LibHermes::CAsrToken,
     value : String,
     confidence : LibC::Float,
     range_start : LibC::Int,
@@ -524,15 +521,17 @@ module Mappings
     time : AsrDecodingDuration
 
   # An array of `AsrToken`.
-  struct_array_map AsrTokenArray,
+  struct_array_mapping AsrTokenArray,
     AsrToken,
+    LibHermes::CAsrTokenArray,
     dbl_ptr: true,
     data_field: entries,
     size_field: count
 
   # An array of `AsrTokenArray`.
-  struct_array_map AsrTokenDoubleArray,
+  struct_array_mapping AsrTokenDoubleArray,
     AsrTokenArray,
+    LibHermes::CAsrTokenDoubleArray,
     dbl_ptr: true,
     data_field: entries,
     size_field: count
@@ -551,7 +550,7 @@ module Mappings
   # invocation, the second one the tokens.
   # - asr_confidence [`Float32`] :
   # Confidence of the asr capture, this value is optional. Any value not in [0,1] should be ignored.
-  struct_map IntentMessage,
+  struct_mapping IntentMessage, LibHermes::CIntentMessage,
     session_id : String,
     custom_data : String?,
     site_id : String,
@@ -570,7 +569,7 @@ module Mappings
   # - custom_data [`String`] : Nullable, the custom data that was given at the session creation.
   # - alternatives [`NluIntentAlternativeArray`] : Nullable, alternative intent resolutions.
   # - confidence_score [`Float32`] : Expresses the confidence that no intent was found.
-  struct_map IntentNotRecognizedMessage,
+  struct_mapping IntentNotRecognizedMessage, LibHermes::CIntentNotRecognizedMessage,
     site_id : String,
     session_id : String,
     input : String,
@@ -582,7 +581,7 @@ module Mappings
   #
   # - session_id [`String`] : The id of the session to end.
   # - text [`String`] : Nullable, an optional text to be told to the user before ending the session.
-  struct_map EndSessionMessage,
+  struct_mapping EndSessionMessage, LibHermes::CEndSessionMessage,
     session_id : String,
     text : String?
 
@@ -590,13 +589,14 @@ module Mappings
   #
   # - key [`String`] : The entry key.
   # - value [`StringArray`] : The entry value.
-  struct_map MapStringToStringArrayEntry,
+  struct_mapping MapStringToStringArrayEntry, LibHermes::CMapStringToStringArrayEntry,
     key : String,
-    value : StringArray
+    value : StringArray = {ptr: true}
 
   # An array of `MapStringToStringArrayEntry`.
-  struct_array_map MapStringToStringArray,
+  struct_array_mapping MapStringToStringArray,
     MapStringToStringArrayEntry,
+    LibHermes::CMapStringToStringArray,
     data_field: entries,
     size_field: count,
     dbl_ptr: true
@@ -605,13 +605,14 @@ module Mappings
   #
   # - values [`MapStringToStringArray`] : Values to inject.
   # - kind [`SnipsInjectionKind`] : The type of injection to perform.
-  struct_map InjectionRequestOperation,
+  struct_mapping InjectionRequestOperation, LibHermes::CInjectionRequestOperation,
     values : MapStringToStringArray = {ptr: true},
     kind : SnipsInjectionKind
 
   # An array of `InjectionRequestOperation`.
-  struct_array_map InjectionRequestOperations,
+  struct_array_mapping InjectionRequestOperations,
     InjectionRequestOperation,
+    LibHermes::CInjectionRequestOperations,
     data_field: operations,
     size_field: count,
     dbl_ptr: true
@@ -622,7 +623,7 @@ module Mappings
   # - lexicon [`MapStringToStringArray`] : Custom pronunciations.
   # - cross_language [`String`] : Nullable, an extra language to compute the pronunciations for.
   # - id [`String`] : Id of the injection request.
-  struct_map InjectionRequestMessage,
+  struct_mapping InjectionRequestMessage, LibHermes::CInjectionRequestMessage,
     operations : InjectionRequestOperations = {ptr: true},
     lexicon : MapStringToStringArray = {ptr: true},
     cross_language : String?,
@@ -631,25 +632,25 @@ module Mappings
   # A message sent when an injection request has completed.
   #
   # - request_id [`String`] : : Id of the injection request.
-  struct_map InjectionCompleteMessage,
+  struct_mapping InjectionCompleteMessage, LibHermes::CInjectionCompleteMessage,
     request_id : String
 
   # A message used to reset previously injected values.
   #
   # - request_id [`String`] : : Id of the injection request.
-  struct_map InjectionResetRequestMessage,
+  struct_mapping InjectionResetRequestMessage, LibHermes::CInjectionResetRequestMessage,
     request_id : String
 
   # A message sent when an injection reset request has completed.
   #
   # - request_id [`String`] : : Id of the injection request.
-  struct_map InjectionResetCompleteMessage,
+  struct_mapping InjectionResetCompleteMessage, LibHermes::CInjectionResetCompleteMessage,
     request_id : String
 
   # A message sent when a status update has been requested.
   #
   # - last_injection_date [`String`] : Date at which the latest injection happened.
-  struct_map InjectionStatusMessage,
+  struct_mapping InjectionStatusMessage, LibHermes::CInjectionStatusMessage,
     last_injection_date : String
 
   # A message used to register a sound and make it useable from the tts.
@@ -657,7 +658,7 @@ module Mappings
   # - sound_id [`String`] : Sound label.
   # - wav_sound [`Array(UInt8)`] : Sound buffer (Wav PCM16).
   # - wav_sound_len [`Int32`] : Length of the sound buffer.
-  struct_map RegisterSoundMessage,
+  struct_mapping RegisterSoundMessage, LibHermes::CRegisterSoundMessage,
     sound_id : String,
     wav_sound : Array(UInt8) = {
       from_c: (
@@ -670,13 +671,14 @@ module Mappings
   #
   # - intent_id [`String`] : The name of the intent that should be configured.
   # - enable [`Bool`] : Whether this intent should be activated or not.
-  struct_map DialogueConfigureIntent,
+  struct_mapping DialogueConfigureIntent, LibHermes::CDialogueConfigureIntent,
     intent_id : String,
     enable : Bool
 
   # Array of `DialogueConfigureIntent`.
-  struct_array_map DialogueConfigureIntentArray,
+  struct_array_mapping DialogueConfigureIntentArray,
     DialogueConfigureIntent,
+    LibHermes::CDialogueConfigureIntentArray,
     data_field: entries,
     size_field: count,
     dbl_ptr: true
@@ -687,7 +689,7 @@ module Mappings
   # Nullable, the site on which this configuration applies, if `null` the configuration will
   # be applied to all sites.
   # - intents [`DialogueConfigureIntentArray`] : An array of intents to configure.
-  struct_map DialogueConfigureMessage,
+  struct_mapping DialogueConfigureMessage, LibHermes::CDialogueConfigureMessage,
     site_id : String?,
     intents : DialogueConfigureIntentArray = {ptr: true}
 
@@ -695,7 +697,7 @@ module Mappings
   #
   # - site_id [`String`] : The id of the targeted site.
   # - session_id [`String`] : Nullable, the id of the session.
-  struct_map SiteMessage,
+  struct_mapping SiteMessage, LibHermes::CSiteMessage,
     site_id : String,
     session_id : String?
 end
